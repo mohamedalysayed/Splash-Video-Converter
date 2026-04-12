@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+build/*.toc
+build/*.pkg
+build/Splash/
+build/Morph/
+dist/
+*.spec.bak
+.pytest_cache/
+.vscode/
+.idea/
+.DS_Store
