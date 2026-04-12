@@ -9,6 +9,9 @@
 
 Splash is a clean, opinionated FFmpeg front-end with a **modern iOS-inspired interface**. No command lines, no guesswork — drop a file on the window, pick an output format, and hit *Start*. It handles everything from a single clip to a whole folder of 4K footage.
 
+
+<img width="962" height="1062" alt="image" src="https://github.com/user-attachments/assets/71edc6cf-dfe7-4e21-81b3-ffd07680f934" />
+
 ---
 
 ## Table of contents
