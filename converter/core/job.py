@@ -1,6 +1,7 @@
 from __future__ import annotations
 import os
 import subprocess
+import threading
 import time
 import uuid
 from dataclasses import dataclass, field
@@ -113,9 +114,18 @@ class JobWorker(QObject):
             self._finish_failure(f"Could not launch FFmpeg: {e}")
             return
 
+        stderr_tail: list[str] = []
+        stderr_thread = threading.Thread(
+            target=self._drain_stderr,
+            args=(self._proc, stderr_tail),
+            daemon=True,
+        )
+        stderr_thread.start()
+
         self._drain_progress(self._proc)
-        stderr_tail = self._drain_stderr(self._proc)
         rc = self._proc.wait()
+        stderr_thread.join()
+        stderr_text = "\n".join(stderr_tail)
 
         if self._cancelled:
             job.finished_at = time.time()
@@ -129,7 +139,7 @@ class JobWorker(QObject):
             self.progress_changed.emit(job.id, 1.0, "")
             self.status_changed.emit(job.id, JobStatus.DONE.value, "")
         else:
-            self._finish_failure(stderr_tail or f"FFmpeg exited with code {rc}")
+            self._finish_failure(stderr_text or f"FFmpeg exited with code {rc}")
 
     def _drain_progress(self, proc: subprocess.Popen) -> None:
         assert proc.stdout is not None
@@ -157,9 +167,8 @@ class JobWorker(QObject):
                 self.progress_changed.emit(self._job.id, 1.0, self._job.speed)
                 break
 
-    def _drain_stderr(self, proc: subprocess.Popen) -> str:
+    def _drain_stderr(self, proc: subprocess.Popen, tail: list[str]) -> None:
         assert proc.stderr is not None
-        tail: list[str] = []
         for raw in proc.stderr:
             line = raw.rstrip()
             if not line:
@@ -168,7 +177,6 @@ class JobWorker(QObject):
             if len(tail) > 20:
                 tail.pop(0)
             self.log_line.emit(self._job.id, line)
-        return "\n".join(tail)
 
     def _remove_partial_output(self) -> None:
         try:

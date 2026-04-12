@@ -247,7 +247,7 @@ class QueueView(QTableView):
         self.verticalHeader().setVisible(False)
         self.setShowGrid(False)
         self.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
-        self.verticalHeader().setDefaultSectionSize(44)
+        self.verticalHeader().setDefaultSectionSize(50)
         self.setFrameShape(QTableView.Shape.NoFrame)
         self.setAutoFillBackground(False)
         self.viewport().setAutoFillBackground(False)

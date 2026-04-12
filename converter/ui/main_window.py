@@ -56,8 +56,7 @@ class MainWindow(QMainWindow):
     def __init__(self, bundle: FFmpegBundle) -> None:
         super().__init__()
         self.setWindowTitle(APP_TITLE)
-        self.resize(1080, 760)
-        self.setMinimumSize(860, 620)
+        self.setMinimumSize(980, 720)
 
         self._settings = QSettings(ORG_NAME, APP_NAME)
         cpu = os.cpu_count() or 2
@@ -73,6 +72,7 @@ class MainWindow(QMainWindow):
         self._build_ui()
         self._apply_theme(self._settings.value("theme", "dark"))
         self._refresh_controls()
+        self._fit_to_screen()
 
         self._status_timer = QTimer(self)
         self._status_timer.setInterval(1000)
@@ -125,7 +125,7 @@ class MainWindow(QMainWindow):
     def _build_hero(self) -> QWidget:
         bar = QWidget()
         bar.setObjectName("HeroBar")
-        bar.setFixedHeight(78)
+        bar.setFixedHeight(102)
 
         wordmark_row = QHBoxLayout()
         wordmark_row.setSpacing(2)
@@ -433,6 +433,22 @@ class MainWindow(QMainWindow):
         )
 
     # ---- window ----
+
+    def _fit_to_screen(self) -> None:
+        """Size the window so all content is visible on first open, capped to the screen."""
+        self.adjustSize()
+        hint = self.sizeHint()
+        screen = self.screen() or QApplication.primaryScreen()
+        avail = screen.availableGeometry() if screen else None
+        max_w = int(avail.width() * 0.92) if avail else hint.width()
+        max_h = int(avail.height() * 0.92) if avail else hint.height()
+        target_w = max(self.minimumWidth(), min(hint.width() + 24, max_w))
+        target_h = max(self.minimumHeight(), min(hint.height() + 24, max_h))
+        self.resize(target_w, target_h)
+        if avail:
+            geo = self.frameGeometry()
+            geo.moveCenter(avail.center())
+            self.move(geo.topLeft())
 
     def closeEvent(self, event) -> None:  # noqa: N802
         if self._manager.running_count() > 0:

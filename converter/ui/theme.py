@@ -17,7 +17,7 @@ _FONT_STACK = (
 DARK_QSS = f"""
 * {{
     font-family: {_FONT_STACK};
-    font-size: 14px;
+    font-size: 17px;
     outline: 0;
 }}
 
@@ -39,19 +39,19 @@ QWidget#HeroBar {{
 }}
 QLabel#AppWordmark {{
     color: #FFFFFF;
-    font-size: 22px;
+    font-size: 28px;
     font-weight: 700;
     letter-spacing: -0.5px;
 }}
 QLabel#AppTagline {{
     color: #8E8E93;
-    font-size: 13px;
+    font-size: 16px;
     font-weight: 500;
     letter-spacing: 0.1px;
 }}
 QLabel#AccentDot {{
     color: #0A84FF;
-    font-size: 22px;
+    font-size: 28px;
     font-weight: 800;
 }}
 
@@ -82,19 +82,19 @@ QMenu::separator {{ height: 1px; background: #2C2C2E; margin: 6px 4px; }}
 QLabel {{ color: #F2F2F7; }}
 QLabel#SectionTitle {{
     color: #FFFFFF;
-    font-size: 17px;
+    font-size: 22px;
     font-weight: 700;
     letter-spacing: -0.2px;
 }}
 QLabel#SectionSubtitle {{
     color: #8E8E93;
-    font-size: 12px;
+    font-size: 15px;
     font-weight: 500;
 }}
-QLabel#Hint {{ color: #8E8E93; font-size: 12px; font-weight: 500; }}
+QLabel#Hint {{ color: #8E8E93; font-size: 15px; font-weight: 500; }}
 QLabel#FormLabel {{
     color: #98989E;
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1.2px;
@@ -115,10 +115,10 @@ QPushButton {{
     color: #F2F2F7;
     border: 1px solid #3A3A3C;
     border-radius: 12px;
-    padding: 10px 20px;
+    padding: 11px 22px;
     font-weight: 600;
-    font-size: 14px;
-    min-height: 20px;
+    font-size: 17px;
+    min-height: 22px;
 }}
 QPushButton:hover {{ background-color: #3A3A3C; border-color: #48484A; }}
 QPushButton:pressed {{ background-color: #1C1C1E; }}
@@ -128,9 +128,9 @@ QPushButton#Primary {{
     background-color: #0A84FF;
     color: #FFFFFF;
     border: 1px solid #0A84FF;
-    padding: 12px 28px;
+    padding: 14px 30px;
     border-radius: 14px;
-    font-size: 15px;
+    font-size: 18px;
     font-weight: 700;
 }}
 QPushButton#Primary:hover {{ background-color: #1F94FF; border-color: #1F94FF; }}
@@ -160,8 +160,8 @@ QComboBox, QLineEdit, QSpinBox {{
     color: #F2F2F7;
     border: 1px solid #2C2C2E;
     border-radius: 12px;
-    padding: 10px 14px;
-    min-height: 22px;
+    padding: 11px 16px;
+    min-height: 24px;
     selection-background-color: #0A84FF;
     selection-color: #FFFFFF;
 }}
@@ -218,7 +218,7 @@ QHeaderView::section {{
     border: none;
     border-bottom: 1px solid #2C2C2E;
     font-weight: 600;
-    font-size: 11px;
+    font-size: 13px;
     text-transform: uppercase;
     letter-spacing: 1.1px;
 }}
@@ -232,8 +232,8 @@ QProgressBar {{
     text-align: center;
     color: #FFFFFF;
     font-weight: 600;
-    font-size: 11px;
-    height: 14px;
+    font-size: 13px;
+    height: 18px;
 }}
 QProgressBar::chunk {{
     background-color: qlineargradient(
@@ -254,16 +254,16 @@ QFrame#DropZone[dragover="true"] {{
 }}
 QLabel#DropIcon {{
     color: #0A84FF;
-    font-size: 42px;
+    font-size: 56px;
     font-weight: 300;
 }}
 QLabel#DropTitle {{
     color: #FFFFFF;
-    font-size: 18px;
+    font-size: 23px;
     font-weight: 700;
     letter-spacing: -0.3px;
 }}
-QLabel#DropHint {{ color: #8E8E93; font-size: 13px; font-weight: 500; }}
+QLabel#DropHint {{ color: #8E8E93; font-size: 16px; font-weight: 500; }}
 
 QScrollBar:vertical {{ background: transparent; width: 10px; margin: 4px 2px; }}
 QScrollBar::handle:vertical {{
@@ -286,9 +286,9 @@ QStatusBar {{
     background-color: #0E0E10;
     color: #8E8E93;
     border-top: 1px solid #2C2C2E;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 500;
-    padding: 4px 10px;
+    padding: 5px 12px;
 }}
 QStatusBar::item {{ border: none; }}
 
@@ -297,17 +297,17 @@ QToolTip {{
     color: #F2F2F7;
     border: 1px solid #3A3A3C;
     border-radius: 8px;
-    padding: 6px 10px;
-    font-size: 12px;
+    padding: 7px 12px;
+    font-size: 14px;
 }}
 
 QLabel#Pill {{
     background: #2C2C2E;
     color: #F2F2F7;
-    padding: 4px 12px;
-    border-radius: 10px;
+    padding: 5px 14px;
+    border-radius: 11px;
     font-weight: 600;
-    font-size: 12px;
+    font-size: 14px;
 }}
 """
 
@@ -315,7 +315,7 @@ QLabel#Pill {{
 LIGHT_QSS = f"""
 * {{
     font-family: {_FONT_STACK};
-    font-size: 14px;
+    font-size: 17px;
     outline: 0;
 }}
 
@@ -337,18 +337,18 @@ QWidget#HeroBar {{
 }}
 QLabel#AppWordmark {{
     color: #000000;
-    font-size: 22px;
+    font-size: 28px;
     font-weight: 700;
     letter-spacing: -0.5px;
 }}
 QLabel#AppTagline {{
     color: #6D6D72;
-    font-size: 13px;
+    font-size: 16px;
     font-weight: 500;
 }}
 QLabel#AccentDot {{
     color: #007AFF;
-    font-size: 22px;
+    font-size: 28px;
     font-weight: 800;
 }}
 
@@ -374,15 +374,15 @@ QMenu::separator {{ height: 1px; background: #D1D1D6; margin: 6px 4px; }}
 QLabel {{ color: #1C1C1E; }}
 QLabel#SectionTitle {{
     color: #000000;
-    font-size: 17px;
+    font-size: 22px;
     font-weight: 700;
     letter-spacing: -0.2px;
 }}
-QLabel#SectionSubtitle {{ color: #6D6D72; font-size: 12px; font-weight: 500; }}
-QLabel#Hint {{ color: #6D6D72; font-size: 12px; font-weight: 500; }}
+QLabel#SectionSubtitle {{ color: #6D6D72; font-size: 15px; font-weight: 500; }}
+QLabel#Hint {{ color: #6D6D72; font-size: 15px; font-weight: 500; }}
 QLabel#FormLabel {{
     color: #3A3A3C;
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1.2px;
@@ -403,10 +403,10 @@ QPushButton {{
     color: #1C1C1E;
     border: 1px solid #D1D1D6;
     border-radius: 12px;
-    padding: 10px 20px;
+    padding: 11px 22px;
     font-weight: 600;
-    font-size: 14px;
-    min-height: 20px;
+    font-size: 17px;
+    min-height: 22px;
 }}
 QPushButton:hover {{ background-color: #F2F2F7; border-color: #B0B0B5; }}
 QPushButton:pressed {{ background-color: #E5E5EA; }}
@@ -416,9 +416,9 @@ QPushButton#Primary {{
     background-color: #007AFF;
     color: #FFFFFF;
     border: 1px solid #007AFF;
-    padding: 12px 28px;
+    padding: 14px 30px;
     border-radius: 14px;
-    font-size: 15px;
+    font-size: 18px;
     font-weight: 700;
 }}
 QPushButton#Primary:hover {{ background-color: #1C88FF; border-color: #1C88FF; }}
@@ -448,8 +448,8 @@ QComboBox, QLineEdit, QSpinBox {{
     color: #1C1C1E;
     border: 1px solid #D1D1D6;
     border-radius: 12px;
-    padding: 10px 14px;
-    min-height: 22px;
+    padding: 11px 16px;
+    min-height: 24px;
     selection-background-color: #007AFF;
     selection-color: #FFFFFF;
 }}
@@ -504,7 +504,7 @@ QHeaderView::section {{
     border: none;
     border-bottom: 1px solid #E5E5EA;
     font-weight: 600;
-    font-size: 11px;
+    font-size: 13px;
     text-transform: uppercase;
     letter-spacing: 1.1px;
 }}
@@ -517,8 +517,8 @@ QProgressBar {{
     text-align: center;
     color: #1C1C1E;
     font-weight: 600;
-    font-size: 11px;
-    height: 14px;
+    font-size: 13px;
+    height: 18px;
 }}
 QProgressBar::chunk {{
     background-color: qlineargradient(
@@ -539,16 +539,16 @@ QFrame#DropZone[dragover="true"] {{
 }}
 QLabel#DropIcon {{
     color: #007AFF;
-    font-size: 42px;
+    font-size: 56px;
     font-weight: 300;
 }}
 QLabel#DropTitle {{
     color: #000000;
-    font-size: 18px;
+    font-size: 23px;
     font-weight: 700;
     letter-spacing: -0.3px;
 }}
-QLabel#DropHint {{ color: #6D6D72; font-size: 13px; font-weight: 500; }}
+QLabel#DropHint {{ color: #6D6D72; font-size: 16px; font-weight: 500; }}
 
 QScrollBar:vertical {{ background: transparent; width: 10px; margin: 4px 2px; }}
 QScrollBar::handle:vertical {{
@@ -569,9 +569,9 @@ QStatusBar {{
     background-color: #FFFFFF;
     color: #6D6D72;
     border-top: 1px solid #E5E5EA;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 500;
-    padding: 4px 10px;
+    padding: 5px 12px;
 }}
 QStatusBar::item {{ border: none; }}
 
@@ -580,17 +580,17 @@ QToolTip {{
     color: #1C1C1E;
     border: 1px solid #D1D1D6;
     border-radius: 8px;
-    padding: 6px 10px;
-    font-size: 12px;
+    padding: 7px 12px;
+    font-size: 14px;
 }}
 
 QLabel#Pill {{
     background: #E5E5EA;
     color: #1C1C1E;
-    padding: 4px 12px;
-    border-radius: 10px;
+    padding: 5px 14px;
+    border-radius: 11px;
     font-weight: 600;
-    font-size: 12px;
+    font-size: 14px;
 }}
 """
 

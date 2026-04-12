@@ -17,7 +17,7 @@ class DropZone(QFrame):
         self.setObjectName("DropZone")
         self.setProperty("dragover", False)
         self.setAcceptDrops(True)
-        self.setMinimumHeight(190)
+        self.setMinimumHeight(220)
         self.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
 
         self._icon = QLabel("\u25BC")
