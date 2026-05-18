@@ -236,48 +236,69 @@ function DropZone() {
   );
 }
 
+// Initial queue state — 3 done, 2 running, 2 queued.
+// Once a "running" job hits 100% it stays done until the user refreshes.
+// As running jobs complete, queued ones are promoted to keep concurrency = 2.
+const INITIAL_JOBS = [
+  { id: 1, name: "Hawaii_drone_4k.mov",      target: "MP4",  pct: 100, state: "done",    speed: 0 },
+  { id: 2, name: "keynote_recording.mkv",    target: "MP4",  pct: 100, state: "done",    speed: 0 },
+  { id: 3, name: "interview_raw.mkv",        target: "MP4",  pct: 47,  state: "running", speed: 0.95 },
+  { id: 4, name: "family_vacation_4k.mov",   target: "WebM", pct: 22,  state: "running", speed: 0.65 },
+  { id: 5, name: "podcast_ep_42.wav",        target: "MP3",  pct: 100, state: "done",    speed: 0 },
+  { id: 6, name: "birthday_2024.avi",        target: "MP4",  pct: 0,   state: "queued",  speed: 1.15 },
+  { id: 7, name: "client_review_v3.mkv",     target: "MOV",  pct: 0,   state: "queued",  speed: 0.85 },
+];
+
+const MAX_RUNNING = 2;
+
 function Queue() {
   const reduce = useReducedMotion();
-  // Last job is permanently "done" — a breathing green dot, finished and proud.
-  const [progress, setProgress] = useState([62, 28, 100]);
-  const names = [
-    "Hawaii_drone_4k.mov",
-    "interview_raw.mkv",
-    "podcast_ep_42.wav",
-  ];
-  const targets = ["→ MP4", "→ MP4", "→ MP3"];
+  const [jobs, setJobs] = useState(INITIAL_JOBS);
 
   useEffect(() => {
     if (reduce) return;
     const id = setInterval(() => {
-      setProgress((prev) =>
-        prev.map((p, i) => {
-          if (i === 2) return 100; // keep the third job done forever
-          const speed = [1.05, 0.72][i];
-          const next = p + speed;
-          return next >= 100 ? Math.max(0, (i * 12) % 20) : next;
-        })
-      );
+      setJobs((prev) => {
+        // Advance progress on running jobs; flip to "done" at 100.
+        let next = prev.map((j) => {
+          if (j.state !== "running") return j;
+          const newPct = j.pct + j.speed;
+          if (newPct >= 100) return { ...j, pct: 100, state: "done", speed: 0 };
+          return { ...j, pct: newPct };
+        });
+        // Promote queued → running until we hit MAX_RUNNING.
+        const runningCount = next.filter((j) => j.state === "running").length;
+        let promotionsNeeded = Math.max(0, MAX_RUNNING - runningCount);
+        if (promotionsNeeded > 0) {
+          next = next.map((j) => {
+            if (promotionsNeeded > 0 && j.state === "queued") {
+              promotionsNeeded -= 1;
+              return { ...j, state: "running", pct: Math.max(2, j.pct) };
+            }
+            return j;
+          });
+        }
+        return next;
+      });
     }, 160);
     return () => clearInterval(id);
   }, [reduce]);
 
   return (
     <div className="queue">
-      {names.map((name, i) => {
-        const pct = Math.min(100, Math.round(progress[i]));
-        const status = pct >= 100 ? "done" : pct < 10 ? "queued" : "running";
+      {jobs.map((j) => {
+        const pct = Math.min(100, Math.round(j.pct));
         return (
-          <div className="queue-row" key={name}>
-            <span style={{ color: "var(--ink-muted)" }}>
+          <div className={`queue-row queue-row--${j.state}`} key={j.id}>
+            <span className="queue-row__icon">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="3" y="3" width="18" height="18" rx="3" />
                 <path d="m10 8 6 4-6 4z" fill="currentColor" stroke="none" />
               </svg>
             </span>
-            <div>
-              <div className="queue-row__name">{name}</div>
-              <div style={{ fontSize: 11, color: "var(--ink-faint)" }}>{targets[i]}</div>
+            <div className="queue-row__meta">
+              <div className="queue-row__name">{j.name}</div>
+              <div className="queue-row__target">→ {j.target}</div>
             </div>
             <div className="queue-row__bar">
               <motion.div
@@ -286,7 +307,7 @@ function Queue() {
               />
             </div>
             <span className="queue-row__pct">{pct}%</span>
-            <StatusPill status={status} />
+            <StatusPill status={j.state} />
           </div>
         );
       })}
