@@ -821,12 +821,11 @@ function ValueStrip() {
                   viewport={{ once: true, amount: 0.4 }}
                   transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
                 />
-                <span className="value-bar__price">
-                  ${it.year1}
-                  <span className="value-bar__cadence"> / yr 1</span>
-                </span>
               </div>
-              <div className="value-bar__sticker">{it.price}<span>{it.cadence}</span></div>
+              <div className="value-bar__amount">
+                <span className="value-bar__year">${it.year1}</span>
+                <span className="value-bar__cadence">{it.cadence === "once" ? "once" : `${it.price}${it.cadence}`}</span>
+              </div>
             </div>
           );
         })}
