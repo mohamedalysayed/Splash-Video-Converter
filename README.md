@@ -54,7 +54,36 @@ You have two choices:
 1. **Pre-built binary** — download and run, nothing to install.
 2. **From source** — needs Python 3.9+.
 
-### Windows
+### Pre-built binaries — every OS
+
+Grab the latest from the [Releases](https://github.com/mohamedalysayed/Splash-Video-Converter/releases/latest) page:
+
+| OS | File | Notes |
+|---|---|---|
+| **macOS — Apple Silicon (M1/M2/M3/M4)** | `Splash-macos-arm64.dmg` | macOS 11+. Open DMG, drag to Applications. |
+| **macOS — Intel** | `Splash-macos-x64.dmg` | macOS 11+. Open DMG, drag to Applications. |
+| **Windows — 64-bit** | `Splash-windows-x64.exe` | Windows 10/11. Just double-click. |
+| **Linux — 64-bit** | `Splash-linux-x86_64` | `chmod +x` then run. Single binary, no install. |
+
+If you bought Splash, your `/thank-you` page after checkout has direct download links for every OS and auto-detects yours.
+
+#### macOS — first launch unblock
+
+We don't pay Apple's $99/yr Developer Program fee, so macOS will refuse the app on first launch with *"Splash is damaged and can't be opened"*. **One-time fix:**
+
+```bash
+xattr -cr /Applications/Splash.app
+```
+
+That's it. Splash launches normally from then on. This is Apple's standard workaround for any self-distributed app; you only do it once.
+
+#### Windows — SmartScreen unblock
+
+The first time you run the `.exe`, SmartScreen may say *"Windows protected your PC."* Click **More info → Run anyway**. Splash is not signed with an EV cert (that's another ~$200/yr) so SmartScreen flags it until Microsoft's reputation engine catches up.
+
+---
+
+### Windows — from source
 
 #### Option A — Pre-built binary (easiest)
 

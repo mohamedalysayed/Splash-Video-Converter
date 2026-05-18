@@ -14,3 +14,9 @@ dist/
 .vscode/
 .idea/
 .DS_Store
+
+# landing/ (Vite + Netlify)
+landing/node_modules/
+landing/dist/
+landing/.netlify/
+.netlify/

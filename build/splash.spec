@@ -1,10 +1,13 @@
 # PyInstaller spec — build a single-file executable for Splash.
 # Usage: pyinstaller build/splash.spec
-# Works on Linux and Windows. On macOS, produces a .app via the BUNDLE section.
+# Linux + Windows  → single executable in dist/
+# macOS            → Splash.app bundle in dist/
+import sys
 from PyInstaller.utils.hooks import collect_submodules
 
-block_cipher = None
+IS_MAC = sys.platform == "darwin"
 
+block_cipher = None
 hidden = collect_submodules("converter")
 
 a = Analysis(
@@ -34,7 +37,8 @@ exe = EXE(
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
-    upx=True,
+    # UPX shrinks Linux/Windows binaries; it corrupts macOS .app bundles.
+    upx=not IS_MAC,
     upx_exclude=[],
     runtime_tmpdir=None,
     console=False,
@@ -44,3 +48,20 @@ exe = EXE(
     codesign_identity=None,
     entitlements_file=None,
 )
+
+if IS_MAC:
+    app = BUNDLE(
+        exe,
+        name="Splash.app",
+        icon=None,
+        bundle_identifier="com.splash.videoconverter",
+        info_plist={
+            "CFBundleName": "Splash",
+            "CFBundleDisplayName": "Splash",
+            "CFBundleShortVersionString": "1.0.0",
+            "CFBundleVersion": "1.0.0",
+            "NSHighResolutionCapable": True,
+            "LSMinimumSystemVersion": "11.0",
+            "NSHumanReadableCopyright": "© 2026 Mohamed Aly Sayed",
+        },
+    )

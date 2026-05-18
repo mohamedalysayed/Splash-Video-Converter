@@ -8,18 +8,35 @@ on:
 
 jobs:
   build:
-    name: ${{ matrix.os }}
+    name: ${{ matrix.label }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         include:
-          - os: windows-latest
+          - label: windows-x64
+            os: windows-latest
             artifact: Splash-windows-x64.exe
             pyinstaller-out: dist/Splash.exe
-          - os: ubuntu-latest
+            kind: file
+
+          - label: linux-x64
+            os: ubuntu-latest
             artifact: Splash-linux-x86_64
             pyinstaller-out: dist/Splash
+            kind: file
+
+          - label: macos-arm64
+            os: macos-14
+            artifact: Splash-macos-arm64.dmg
+            pyinstaller-out: dist/Splash.app
+            kind: macapp
+
+          - label: macos-x64
+            os: macos-13
+            artifact: Splash-macos-x64.dmg
+            pyinstaller-out: dist/Splash.app
+            kind: macapp
     steps:
       - uses: actions/checkout@v4
 
@@ -46,11 +63,35 @@ jobs:
       - name: Build
         run: pyinstaller --clean --noconfirm build/splash.spec
 
-      - name: Rename artifact
+      - name: Package artifact (file)
+        if: matrix.kind == 'file'
         shell: bash
         run: |
           mkdir -p out
           cp "${{ matrix.pyinstaller-out }}" "out/${{ matrix.artifact }}"
+
+      - name: Ad-hoc codesign + DMG (macOS)
+        if: matrix.kind == 'macapp'
+        shell: bash
+        run: |
+          mkdir -p out staging
+          # Ad-hoc signature — avoids the worst "is damaged" errors on Apple
+          # Silicon for self-distributed apps. Users still need to clear the
+          # quarantine attribute on first launch (see README + /thank-you).
+          # When an Apple Developer ID is added, swap "-" for the team identity.
+          codesign --force --deep --sign - --options runtime dist/Splash.app
+          codesign --verify --deep --strict dist/Splash.app
+
+          # DMG layout: app bundle + Applications symlink for drag-to-install UX.
+          cp -R dist/Splash.app staging/Splash.app
+          ln -s /Applications staging/Applications
+
+          hdiutil create \
+            -volname Splash \
+            -srcfolder staging \
+            -ov \
+            -format UDZO \
+            "out/${{ matrix.artifact }}"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -74,3 +115,4 @@ jobs:
         with:
           files: artifacts/**/*
           generate_release_notes: true
+          fail_on_unmatched_files: false
