@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { motion, useReducedMotion, AnimatePresence } from "framer-motion";
 import ThankYou from "./ThankYou.jsx";
+import Guide from "./Guide.jsx";
 
 /* ─────────────────────────────────────────────────────────────
    Splash — landing page
@@ -41,6 +42,9 @@ const Reveal = ({ children, delay = 0, className }) => {
 
 export default function App() {
   const path = typeof window !== "undefined" ? window.location.pathname : "/";
+  if (path.startsWith("/guide") || path.startsWith("/docs")) {
+    return <Guide />;
+  }
   if (path.startsWith("/thank-you") || path.startsWith("/thanks") || path.startsWith("/download")) {
     return <ThankYou />;
   }
@@ -173,11 +177,11 @@ function AppWindow() {
 
         <div className="window__body">
           <div className="app-hero">
+            <div className="app-hero__icon">▶</div>
             <div>
               <h3 className="app-hero__title">Cast</h3>
               <p className="app-hero__sub">Drop files anywhere · 8 cores ready</p>
             </div>
-            <div className="app-hero__icon">▶</div>
           </div>
 
           <DropZone />
@@ -233,7 +237,8 @@ function DropZone() {
 
 function Queue() {
   const reduce = useReducedMotion();
-  const [progress, setProgress] = useState([62, 28, 4]);
+  // Last job is permanently "done" — a breathing green dot, finished and proud.
+  const [progress, setProgress] = useState([62, 28, 100]);
   const names = [
     "Hawaii_drone_4k.mov",
     "interview_raw.mkv",
@@ -246,7 +251,8 @@ function Queue() {
     const id = setInterval(() => {
       setProgress((prev) =>
         prev.map((p, i) => {
-          const speed = [1.05, 0.72, 0.48][i];
+          if (i === 2) return 100; // keep the third job done forever
+          const speed = [1.05, 0.72][i];
           const next = p + speed;
           return next >= 100 ? Math.max(0, (i * 12) % 20) : next;
         })

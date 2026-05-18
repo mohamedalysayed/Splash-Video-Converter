@@ -343,7 +343,7 @@ button { font-family: inherit; cursor: pointer; }
 .app-hero {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 14px;
   margin-bottom: 22px;
 }
 .app-hero__title {
@@ -492,6 +492,30 @@ button { font-family: inherit; cursor: pointer; }
 .pill--running { background: rgba(28,28,30,0.08); color: var(--ink); }
 .pill--done   { background: rgba(52,199,89,0.14); color: #1f7a3a; }
 .pill--dot { width: 6px; height: 6px; border-radius: 999px; background: currentColor; }
+
+/* Breathing green dot — for the permanently-done row. */
+.pill--done .pill--dot {
+  background: #34c759;
+  position: relative;
+  animation: dot-breathe 2.4s ease-in-out infinite;
+}
+.pill--done .pill--dot::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 999px;
+  background: rgba(52,199,89,0.45);
+  z-index: -1;
+  animation: dot-halo 2.4s ease-in-out infinite;
+}
+@keyframes dot-breathe {
+  0%, 100% { transform: scale(1);   box-shadow: 0 0 0 0 rgba(52,199,89,0.55); }
+  50%      { transform: scale(1.15);box-shadow: 0 0 0 4px rgba(52,199,89,0); }
+}
+@keyframes dot-halo {
+  0%, 100% { opacity: 0.5; transform: scale(0.9); }
+  50%      { opacity: 0;   transform: scale(1.8); }
+}
 
 @media (max-width: 640px) {
   .controls { grid-template-columns: 1fr; }

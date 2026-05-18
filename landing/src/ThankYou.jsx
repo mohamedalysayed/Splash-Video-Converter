@@ -194,11 +194,7 @@ export default function ThankYou() {
               <h3>Read the User Guide</h3>
               <p>10-minute read · everything you need to know about Cast</p>
             </div>
-            <a
-              href="https://github.com/mohamedalysayed/Splash-Video-Converter/blob/main/USER_GUIDE.md"
-              target="_blank" rel="noreferrer"
-              className="ty__guide-cta"
-            >
+            <a href="/guide" className="ty__guide-cta">
               Open guide
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: 6 }}>
                 <path d="M7 17 17 7" />
