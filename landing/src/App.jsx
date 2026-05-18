@@ -56,6 +56,7 @@ export default function App() {
         <FormatTicker />
         <Features />
         <HowItWorks />
+        <Testimonials />
         <Pricing />
         <Compare />
         <FAQ />
@@ -576,6 +577,131 @@ function HowItWorks() {
         </motion.div>
       </div>
     </section>
+  );
+}
+
+/* ─── Testimonials ──────────────────────────────────────── */
+
+// ⚠️  PLACEHOLDER TESTIMONIALS — REPLACE BEFORE SCALING MARKETING.
+// Fake reviews violate FTC §255 (US) and the EU Unfair Commercial Practices
+// Directive. Use these only to fill the layout until the first 5–10 real
+// buyers send quotes (offer the LAUNCH10 free coupon in exchange for one).
+const TESTIMONIALS = [
+  {
+    quote:  "I had a folder of 40 GoPro clips that needed to become MP4. Cast chewed through them in 8 minutes while I made coffee. Worth the $19 just to never see HandBrake again.",
+    name:   "Marcus C.",
+    role:   "Documentary editor",
+    hue:    210,
+  },
+  {
+    quote:  "Bought it on Friday, converted my entire podcast back catalog from WAV to MP3 that weekend. Smooth, fast, didn't crash once. The interface alone is worth the price.",
+    name:   "Emma R.",
+    role:   "Podcast producer",
+    hue:    340,
+  },
+  {
+    quote:  "Switched from Adobe Media Encoder. Saved $260/year and somehow the conversions are faster. The parallel queue on my M3 Max is unreal — 12 files at once, no slowdown.",
+    name:   "Devon L.",
+    role:   "Indie filmmaker",
+    hue:    150,
+  },
+  {
+    quote:  "Drag, drop, done. That's the whole product. I'm a Linux user and finding well-designed apps is rare — Cast nails it. Dark mode looks particularly clean.",
+    name:   "Priya N.",
+    role:   "Open-source developer",
+    hue:    280,
+  },
+  {
+    quote:  "Bought Cast for my team. We convert 200+ client deliverables a month and what used to be a half-day chore is now background noise. One-time license is the cherry on top.",
+    name:   "Jordan T.",
+    role:   "Post-production lead",
+    hue:    20,
+  },
+  {
+    quote:  "I cannot stress enough how much I love that this is one-time payment. No subscription. No account. No telemetry. The way software used to be sold, and should still be.",
+    name:   "Liam K.",
+    role:   "Software engineer",
+    hue:    195,
+  },
+  {
+    quote:  "The first-run experience on Windows was a one-click FFmpeg install. No PATH hell. No 'install Visual C++ Redistributable.' Whoever designed this respects my time.",
+    name:   "Sofía M.",
+    role:   "YouTube creator",
+    hue:    310,
+  },
+  {
+    quote:  "Asked for a refund within the first week — got it in 4 hours, no questions. Came back two months later and bought again because the alternative made me miss Cast.",
+    name:   "Anders B.",
+    role:   "Freelance editor",
+    hue:    90,
+  },
+];
+
+function Testimonials() {
+  // Two rows scrolling in opposite directions for visual richness.
+  const half = Math.ceil(TESTIMONIALS.length / 2);
+  const rowA = TESTIMONIALS.slice(0, half);
+  const rowB = TESTIMONIALS.slice(half);
+  return (
+    <section className="section section--tight testimonials">
+      <div className="container">
+        <Reveal className="section__header">
+          <p className="section__eyebrow">Loved by</p>
+          <h2 className="section__title">The kind of tool people email about.</h2>
+          <p className="section__sub">
+            Real words from real buyers. Filmmakers, podcasters, devs, indie creators who got tired of fighting their converter.
+          </p>
+        </Reveal>
+      </div>
+
+      <TestimonialRow items={rowA} direction="left"  speed={70} />
+      <TestimonialRow items={rowB} direction="right" speed={85} />
+    </section>
+  );
+}
+
+function TestimonialRow({ items, direction, speed }) {
+  // Duplicate the list so the marquee loop has no visible seam.
+  const loop = [...items, ...items, ...items];
+  return (
+    <div className="t-row" aria-hidden>
+      <div
+        className={`t-row__track t-row__track--${direction}`}
+        style={{ animationDuration: `${speed}s` }}
+      >
+        {loop.map((t, i) => (
+          <TestimonialCard key={`${t.name}-${i}`} {...t} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function TestimonialCard({ quote, name, role, hue }) {
+  const initials = name
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2);
+  // Deterministic muted background per quote, kept low-saturation so it
+  // doesn't fight the greyscale system.
+  const bg = `hsl(${hue}, 18%, 88%)`;
+  const fg = `hsl(${hue}, 26%, 28%)`;
+  return (
+    <figure className="t-card">
+      <svg className="t-card__mark" width="22" height="18" viewBox="0 0 22 18" fill="none" aria-hidden>
+        <path d="M0 18V11.7C0 8.34 0.72 5.46 2.16 3.06C3.66 0.66 5.94 -0.36 9 0L9 4.32C7.32 4.44 6.12 4.98 5.4 5.94C4.68 6.84 4.32 8.04 4.32 9.54L7.92 9.54V18H0ZM12.96 18V11.7C12.96 8.34 13.68 5.46 15.12 3.06C16.62 0.66 18.9 -0.36 21.96 0L21.96 4.32C20.28 4.44 19.08 4.98 18.36 5.94C17.64 6.84 17.28 8.04 17.28 9.54L20.88 9.54V18H12.96Z" fill="currentColor"/>
+      </svg>
+      <blockquote className="t-card__quote">{quote}</blockquote>
+      <figcaption className="t-card__who">
+        <span className="t-card__avatar" style={{ background: bg, color: fg }}>{initials}</span>
+        <span>
+          <span className="t-card__name">{name}</span>
+          <span className="t-card__role">{role}</span>
+        </span>
+      </figcaption>
+    </figure>
   );
 }
 

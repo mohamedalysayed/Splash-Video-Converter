@@ -5,9 +5,9 @@
 [![License](https://img.shields.io/badge/license-GPL--3.0-1c1c1e?style=flat-square)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.9%2B-1c1c1e?style=flat-square)](https://www.python.org)
 [![Platforms](https://img.shields.io/badge/macOS-%C2%B7%20Windows%20%C2%B7%20Linux-1c1c1e?style=flat-square)](#download)
-[![Buy Cast](https://img.shields.io/badge/Buy%20Cast-%2419%20once-0a0a0a?style=flat-square)](https://splash-video-converter.netlify.app)
+[![Buy Cast](https://img.shields.io/badge/Buy%20Cast-%2419%20once-0a0a0a?style=flat-square)](https://cast-by-splash.netlify.app)
 
-> A **Splash** product. Part of the [Splash](https://splash-video-converter.netlify.app) family of small, opinionated, no-subscription tools.
+> A **Splash** product. Part of the [Splash](https://cast-by-splash.netlify.app) family of small, opinionated, no-subscription tools.
 
 Cast is what FFmpeg should have looked like the day it shipped. Drag in a clip — or an entire folder of 4K footage — pick an output format, watch the queue chew through it. No command line. No 200-deep menu. No subscription dragging you down.
 
@@ -39,7 +39,7 @@ Pre-built binaries for every platform live on the [Releases](https://github.com/
 | **Windows** | `Cast-windows-x64.exe` | Windows 10/11, 64-bit. |
 | **Linux** | `Cast-linux-x86_64` | Single ELF. `chmod +x` then run. |
 
-> Prefer to support the work? The polished build with auto-updates is [$19, one-time, at splash-video-converter.netlify.app](https://splash-video-converter.netlify.app). No subscriptions, ever.
+> Prefer to support the work? The polished build with auto-updates is [$19, one-time, at cast-by-splash.netlify.app](https://cast-by-splash.netlify.app). No subscriptions, ever.
 
 ### macOS — the "is damaged" workaround
 
@@ -222,7 +222,7 @@ PRs welcome. A few ground rules so we stay aligned:
 
 GPL-3.0-or-later. See [LICENSE](LICENSE).
 
-You're allowed (and encouraged) to clone, study, modify, and redistribute Cast. If you ship a fork, ship it under GPL too. If Cast saves you time and you want to support the work without compiling it yourself, the polished build with auto-updates is [$19, one-time, at splash-video-converter.netlify.app](https://splash-video-converter.netlify.app).
+You're allowed (and encouraged) to clone, study, modify, and redistribute Cast. If you ship a fork, ship it under GPL too. If Cast saves you time and you want to support the work without compiling it yourself, the polished build with auto-updates is [$19, one-time, at cast-by-splash.netlify.app](https://cast-by-splash.netlify.app).
 
 ---
 

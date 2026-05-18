@@ -170,4 +170,4 @@ Watch the releases page if you'd rather get notifications via GitHub:
 
 ---
 
-*Cast is open source under GPL-3.0. The polished build you bought funds the rest of the roadmap. If a friend asks where you got it, send them to [splash-video-converter.netlify.app](https://splash-video-converter.netlify.app).*
+*Cast is open source under GPL-3.0. The polished build you bought funds the rest of the roadmap. If a friend asks where you got it, send them to [cast-by-splash.netlify.app](https://cast-by-splash.netlify.app).*

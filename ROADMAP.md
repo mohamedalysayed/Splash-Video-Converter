@@ -9,14 +9,45 @@ This is a living document. Dates are rough. Priorities shift based on what actua
 ## Shipped (v1.0)
 
 - The app itself — PySide6 UI, FFmpeg back-end, parallel queue, dark + light themes
-- Landing page at [splash-video-converter.netlify.app](https://splash-video-converter.netlify.app) — Vite + React + Framer Motion, greyscale system
+- Landing page at [cast-by-splash.netlify.app](https://cast-by-splash.netlify.app) — Vite + React + Framer Motion, greyscale system
 - Stripe checkout wired into every CTA at $19 once
 - `/thank-you` success page with auto-OS-detection and direct download links per platform
 - CI builds for macOS (Apple Silicon), Windows, and Linux on every `v*` tag, with a `.dmg` for macOS
 
 ---
 
-## Next up (v1.1)
+## Next up — paid polish (do these in launch month)
+
+These are the two things that pay for themselves fastest. Both are small-money, big-impact moves.
+
+### 🌐 Custom domain — ~$15/year
+
+The current URL `cast-by-splash.netlify.app` works but flags "this is hosted on a free tier" to anyone who pays attention. A real domain signals real product.
+
+**Shortlist:**
+- `cast.app` — premium, probably taken
+- `getcast.app` — clean, $20/year on Porkbun
+- `usecast.app` — same vibe
+- `castvideo.app` — extra clarity
+- `cast.splash.app` — if/when Splash gets its own brand domain
+
+DNS at the registrar takes 5 min. Netlify provisions Let's Encrypt automatically. Done in under 10 minutes from the moment a domain is bought. Update Stripe `success_url`, README badge, and the meta og:url at the same time.
+
+### 🍎 Apple Developer ID — $99/year
+
+Stops the *"Cast is damaged"* error on first launch — the single biggest friction point in the macOS buying flow. Estimated ~10% of Mac buyers will refund or abandon over the `xattr -cr` workaround, so the cert pays for itself somewhere around the 50th macOS sale.
+
+CI changes when the cert lands:
+1. Add the `.p12` certificate as a GitHub Actions secret
+2. Replace `codesign --sign -` with `codesign --sign "Developer ID Application: <name>"`
+3. Add an `xcrun notarytool submit ... --wait` step
+4. Add `xcrun stapler staple Cast.app`
+
+About 30 minutes of CI work once the cert exists. Apple's notarization runs in under 10 minutes per release.
+
+---
+
+## Next up — engineering (v1.1)
 
 ### Ship the Intel Mac binary
 
@@ -32,15 +63,15 @@ Right now if the buyer closes the success tab, their only proof of purchase is t
 
 Embedded above the fold on the landing page. The single biggest conversion lever for a paid utility, full stop. I'll record it the moment I have a clean test machine.
 
+### Replace placeholder testimonials with real ones
+
+The landing page has a sliding testimonials section with **placeholder copy**. Before any paid marketing push, swap in real quotes from the first ~5 buyers (LAUNCH10 coupon → ask for a one-liner in exchange). Fake testimonials are an FTC violation in the US and consumer-law violation in the EU — don't ship that.
+
 ---
 
 ## When the numbers justify it
 
 These have real costs (money or time) and only make sense once Cast is provably making money.
-
-### Apple Developer ID — $99/year
-
-Stops the `xattr -cr` step on first launch. Roughly 10% of macOS buyers will refund over that friction, so it pays for itself somewhere around the 50th sale. The build job is a 30-minute change once the cert exists.
 
 ### Gated downloads via Cloudflare R2 + signed URLs
 
@@ -58,10 +89,6 @@ Total: ~4 hours of work. Stays free at any reasonable scale (R2 has zero egress 
 ### Windows EV code-signing cert — ~$200/year
 
 Kills the SmartScreen warning permanently. Lower priority than the Mac signing because most Windows buyers click through it without much friction. Worth doing once Windows sales prove out.
-
-### Custom domain
-
-`splash-video-converter.netlify.app` is fine for launch but looks unfinished. Something like `splashconverter.app` (~$15/year) signals "real product." Five-minute DNS change once a domain is registered.
 
 ---
 
