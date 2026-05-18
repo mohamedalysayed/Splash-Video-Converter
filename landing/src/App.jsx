@@ -70,13 +70,16 @@ function Nav() {
       <div className="nav__inner">
         <a href="#top" className="nav__brand">
           <span className="nav__logo">▶</span>
-          <span>Splash</span>
+          <span className="nav__brand-stack">
+            <span className="nav__brand-name">Cast</span>
+            <span className="nav__brand-sub">by Splash</span>
+          </span>
         </a>
         <div className="nav__links">
           <a href="#features" className="nav__link">Features</a>
           <a href="#how" className="nav__link">How it works</a>
           <a href="#pricing" className="nav__link">Pricing</a>
-          <a href={BUY_URL} className="nav__cta">Get Splash</a>
+          <a href={BUY_URL} className="nav__cta">Get Cast</a>
         </div>
       </div>
     </nav>
@@ -97,7 +100,7 @@ function Hero() {
           className="hero__eyebrow"
         >
           <span className="hero__dot" />
-          <span>v1.0 — now shipping for macOS, Windows &amp; Linux</span>
+          <span>Cast v1.0 — shipping for macOS, Windows &amp; Linux</span>
         </motion.div>
 
         <motion.h1
@@ -116,7 +119,7 @@ function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
         >
-          Splash is the video &amp; audio converter that drops the command line. Drag a file in,
+          Cast is the video &amp; audio converter that drops the command line. Drag a file in,
           pick a format, hit Start. MP4, MOV, MKV, WebM, GIF, MP3 — any direction.
         </motion.p>
 
@@ -127,7 +130,7 @@ function Hero() {
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.25 }}
         >
           <a href={BUY_URL} className="btn btn--primary btn--lg">
-            Buy once — $19
+            Get Cast — $19
             <span className="btn__arrow">→</span>
           </a>
           <a href="#how" className="btn btn--ghost btn--lg">See how it works</a>
@@ -164,14 +167,14 @@ function AppWindow() {
           <span className="window__dot window__dot--r" />
           <span className="window__dot window__dot--y" />
           <span className="window__dot window__dot--g" />
-          <span className="window__title">Splash</span>
+          <span className="window__title">Cast</span>
           <span style={{ width: 42 }} />
         </div>
 
         <div className="window__body">
           <div className="app-hero">
             <div>
-              <h3 className="app-hero__title">Splash</h3>
+              <h3 className="app-hero__title">Cast</h3>
               <p className="app-hero__sub">Drop files anywhere · 8 cores ready</p>
             </div>
             <div className="app-hero__icon">▶</div>
@@ -328,7 +331,7 @@ function Features() {
     <section className="section" id="features">
       <div className="container">
         <Reveal className="section__header">
-          <p className="section__eyebrow">Why Splash</p>
+          <p className="section__eyebrow">Why Cast</p>
           <h2 className="section__title">FFmpeg power. Zero command line.</h2>
           <p className="section__sub">
             Every convenience of a paid tool. None of the bloat, ads, or subscriptions.
@@ -345,7 +348,7 @@ function Features() {
           <BentoCard className="bento__card--wide bento__card--tall">
             <h3 className="bento__title">Drop. Pick. Done.</h3>
             <p className="bento__body">
-              Drag a single clip or an entire folder of 4K footage. Splash recursively finds every supported
+              Drag a single clip or an entire folder of 4K footage. Cast recursively finds every supported
               file and queues it up. The whole UI was designed so you never have to think.
             </p>
             <div className="bento__visual">
@@ -537,9 +540,9 @@ function DownloadVisual() {
 
 function HowItWorks() {
   const steps = [
-    { title: "Drop your files", body: "Drag a single video or a whole folder onto Splash. It finds every supported file inside." },
+    { title: "Drop your files", body: "Drag a single video or a whole folder onto Cast. It finds every supported file inside." },
     { title: "Pick a format", body: "MP4, MOV, MKV, WebM, GIF, MP3 — pick output and a quality preset. Sensible defaults pre-selected." },
-    { title: "Hit Start", body: "Splash converts in parallel across your CPU cores. Real progress per file. Cancel any time." },
+    { title: "Hit Start", body: "Cast converts in parallel across your CPU cores. Real progress per file. Cancel any time." },
   ];
   return (
     <section className="section" id="how">
@@ -601,7 +604,7 @@ function Pricing() {
 
             <ul className="price-includes">
               {[
-                "Splash for macOS, Windows & Linux",
+                "Cast for macOS, Windows & Linux",
                 "Convert any → any (MP4, MOV, MKV, WebM, GIF, MP3…)",
                 "Parallel queue across all CPU cores",
                 "Drag-and-drop entire folders",
@@ -651,7 +654,7 @@ function Compare() {
           <div className="compare">
             <div className="compare__row compare__row--head">
               <div>Feature</div>
-              <div className="compare__cell">Splash</div>
+              <div className="compare__cell">Cast</div>
               <div className="compare__cell">Adobe Media Encoder</div>
             </div>
             {rows.map(([feat, splash, them]) => (
@@ -676,13 +679,13 @@ function Compare() {
 function FAQ() {
   const items = [
     { q: "Is this really a one-time payment?",
-      a: "Yes. You pay $19 once, download Splash, and use it forever. No subscriptions, no recurring charges, no license server phoning home." },
+      a: "Yes. You pay $19 once, download Cast, and use it forever. No subscriptions, no recurring charges, no license server phoning home." },
     { q: "What platforms does it run on?",
       a: "macOS (Apple Silicon & Intel), Windows 10/11 (64-bit), and Linux (Ubuntu, Fedora, Arch). One purchase covers all three." },
     { q: "Do I get future updates?",
-      a: "Yes — every version, free, forever. As long as Splash keeps shipping, you keep getting it." },
+      a: "Yes — every version, free, forever. As long as Cast keeps shipping, you keep getting it." },
     { q: "Why not just use HandBrake or VLC?",
-      a: "You can. They're free, they work, and they look like they were designed in 2007. Splash is for people who want the conversion to disappear into the background and the UI to feel good. If you're on the command line every day, HandBrake is fine. If not, Splash is built for you." },
+      a: "You can. They're free, they work, and they look like they were designed in 2007. Cast is for people who want the conversion to disappear into the background and the UI to feel good. If you're on the command line every day, HandBrake is fine. If not, Cast is built for you." },
     { q: "What about commercial use?",
       a: "Included. Convert client footage, podcast episodes, course videos — whatever you make a living on. No upgrade tier required." },
     { q: "What's your refund policy?",
@@ -764,14 +767,14 @@ function Footer() {
     <footer className="footer container">
       <div className="footer__brand">
         <span className="nav__logo" style={{ width: 22, height: 22, borderRadius: 6, fontSize: 11 }}>▶</span>
-        Splash
+        Cast <span style={{ color: "var(--ink-faint)", fontWeight: 500, marginLeft: 6 }}>by Splash</span>
       </div>
       <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
         <a href={GITHUB_URL} className="nav__link">GitHub</a>
         <a href="#pricing" className="nav__link">Pricing</a>
         <a href="mailto:muhammmedaly@gmail.com" className="nav__link">Support</a>
       </div>
-      <div>© {new Date().getFullYear()} Splash · GPL-3.0</div>
+      <div>© {new Date().getFullYear()} Splash · Cast is GPL-3.0</div>
     </footer>
   );
 }

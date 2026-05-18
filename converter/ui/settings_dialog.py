@@ -26,7 +26,7 @@ class SettingsDialog(QDialog):
 
         title = QLabel("Preferences")
         title.setObjectName("SectionTitle")
-        subtitle = QLabel("Personalize how Splash looks and runs.")
+        subtitle = QLabel("Personalize how Cast looks and runs.")
         subtitle.setObjectName("SectionSubtitle")
 
         self._theme = QComboBox()

@@ -36,7 +36,7 @@ Embedded above the fold on the landing page. The single biggest conversion lever
 
 ## When the numbers justify it
 
-These have real costs (money or time) and only make sense once Splash is provably making money.
+These have real costs (money or time) and only make sense once Cast is provably making money.
 
 ### Apple Developer ID — $99/year
 
@@ -67,12 +67,12 @@ Kills the SmartScreen warning permanently. Lower priority than the Mac signing b
 
 ## Probably never
 
-A short list of things people will ask for that I'm not going to build, because the whole point of Splash is the small surface area:
+A short list of things people will ask for that I'm not going to build, because the whole point of Cast is the small surface area:
 
-- **A library / clip manager.** Splash converts files. Your OS already has a file manager. Use Finder.
-- **Cloud features.** No accounts. No sync. No "Splash for Teams." It's a desktop tool.
-- **AI upscaling / re-cuts / "smart edits."** There are good tools for those and they're not Splash.
-- **Telemetry, analytics, or any kind of phone-home.** Splash should work the same with the network cable yanked.
+- **A library / clip manager.** Cast converts files. Your OS already has a file manager. Use Finder.
+- **Cloud features.** No accounts. No sync. No "Cast for Teams." It's a desktop tool.
+- **AI upscaling / re-cuts / "smart edits."** There are good tools for those and they're not Cast.
+- **Telemetry, analytics, or any kind of phone-home.** Cast should work the same with the network cable yanked.
 - **A free tier with watermarks.** Insulting to free users, dishonest as a funnel. Either it's free (build from source — anyone can) or it's $19.
 
 ---
@@ -104,12 +104,12 @@ Building the thing is the easy part. Getting customers is everything.
 
 ## Strategic options (later)
 
-These are the "if Splash works, then what" branches.
+These are the "if Cast works, then what" branches.
 
-- **Splash Pro at $49 once** — hardware encoding (NVENC / QSV / VideoToolbox), subtitle burn-in, batch metadata edit. Pure margin once the core is steady.
+- **Cast Pro at $49 once** — hardware encoding (NVENC / QSV / VideoToolbox), subtitle burn-in, batch metadata edit. Pure margin once the core is steady.
 - **Team license at $99 for 5 seats** — for studios and agencies. Same binary, different receipt.
-- **Bundle pricing with other Splash tools** — if I ship a second Splash product, "buy 2 get 1 free" works well in indie land.
-- **Acquisition** — micro-acquisition platforms (Acquire.com, MicroAcquire) trade indie utility tools at 2.5–4× annual revenue. Once Splash clears $3K MRR (one-time amortized) it's a sellable asset. Not the goal, but worth knowing the floor.
+- **Bundle pricing with other Splash tools** — Cast lives under the Splash umbrella. When the next Splash product ships, "buy 2 get 1 free" works well in indie land.
+- **Acquisition** — micro-acquisition platforms (Acquire.com, MicroAcquire) trade indie utility tools at 2.5–4× annual revenue. Once Cast clears $3K MRR (one-time amortized) it's a sellable asset. Not the goal, but worth knowing the floor.
 
 ---
 

@@ -44,7 +44,7 @@ def app_data_dir() -> Path:
         base = Path.home() / "Library" / "Application Support"
     else:
         base = Path(os.environ.get("XDG_DATA_HOME", Path.home() / ".local" / "share"))
-    d = base / "Splash"
+    d = base / "Cast"
     d.mkdir(parents=True, exist_ok=True)
     return d
 

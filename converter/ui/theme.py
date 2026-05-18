@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-# Splash — iOS-inspired theme.
+# Cast — iOS-inspired theme.
 # Palette mirrors Apple's current system colors (iOS 17/18):
 #   systemBlue  dark #0A84FF / light #007AFF
 #   systemIndigo dark #5E5CE6 / light #5856D6

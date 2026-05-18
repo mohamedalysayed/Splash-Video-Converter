@@ -1,4 +1,4 @@
-__version__ = "3.0.0"
-APP_NAME = "Splash"
-APP_TITLE = "Splash — Video Converter"
+__version__ = "1.0.1"
+APP_NAME = "Cast"
+APP_TITLE = "Cast — by Splash"
 ORG_NAME = "Splash"

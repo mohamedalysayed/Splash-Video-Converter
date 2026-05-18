@@ -118,7 +118,7 @@ class MainWindow(QMainWindow):
         view_menu.addAction(prefs_act)
 
         help_menu = bar.addMenu("&Help")
-        about_act = QAction("About Splash", self)
+        about_act = QAction("About Cast", self)
         about_act.triggered.connect(self._show_about)
         help_menu.addAction(about_act)
 
@@ -130,7 +130,7 @@ class MainWindow(QMainWindow):
         wordmark_row = QHBoxLayout()
         wordmark_row.setSpacing(2)
         wordmark_row.setContentsMargins(0, 0, 0, 0)
-        wordmark = QLabel("Splash")
+        wordmark = QLabel("Cast")
         wordmark.setObjectName("AppWordmark")
         dot = QLabel(".")
         dot.setObjectName("AccentDot")

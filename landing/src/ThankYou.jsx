@@ -14,19 +14,19 @@ const DOWNLOADS = [
   {
     os:    "macOS",
     sub:   "Apple Silicon · macOS 11+",
-    file:  "Splash-macos-arm64.dmg",
+    file:  "Cast-macos-arm64.dmg",
     icon:  "🍎",
   },
   {
     os:    "Windows",
     sub:   "Windows 10/11 · 64-bit",
-    file:  "Splash-windows-x64.exe",
+    file:  "Cast-windows-x64.exe",
     icon:  "🪟",
   },
   {
     os:    "Linux",
     sub:   "Ubuntu / Fedora / Arch · 64-bit",
-    file:  "Splash-linux-x86_64",
+    file:  "Cast-linux-x86_64",
     icon:  "🐧",
   },
 ];
@@ -72,7 +72,10 @@ export default function ThankYou() {
         <div className="nav__inner">
           <a href="/" className="nav__brand">
             <span className="nav__logo">▶</span>
-            <span>Splash</span>
+            <span className="nav__brand-stack">
+              <span className="nav__brand-name">Cast</span>
+              <span className="nav__brand-sub">by Splash</span>
+            </span>
           </a>
           <div className="nav__links">
             <a href="/" className="nav__link">Home</a>
@@ -100,7 +103,7 @@ export default function ThankYou() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
           >
-            You're in. Welcome to Splash.
+            You're in. Welcome to Cast.
           </motion.h1>
 
           <motion.p
@@ -109,7 +112,7 @@ export default function ThankYou() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
           >
-            Your purchase is confirmed. Pick your platform below to download Splash.
+            Your purchase is confirmed. Pick your platform below to download Cast.
             Your receipt and a backup download link have been emailed to you.
           </motion.p>
 
@@ -165,18 +168,18 @@ export default function ThankYou() {
             <h2 className="ty__steps-title">After downloading</h2>
             <ol className="ty__steps-list">
               <li>
-                <strong>macOS:</strong> open the <code>.dmg</code> · drag <code>Splash.app</code> to <code>Applications</code>. If macOS says <em>"Splash is damaged"</em> on first launch, open Terminal and run:<br />
-                <code style={{ display: "inline-block", marginTop: 6 }}>xattr -cr /Applications/Splash.app</code><br />
+                <strong>macOS:</strong> open the <code>.dmg</code> · drag <code>Cast.app</code> to <code>Applications</code>. If macOS says <em>"Cast is damaged"</em> on first launch, open Terminal and run:<br />
+                <code style={{ display: "inline-block", marginTop: 6 }}>xattr -cr /Applications/Cast.app</code><br />
                 <span style={{ fontSize: 13, color: "var(--ink-faint)" }}>(One-time. Apple flags any app we don't pay them $99/yr to notarize — this clears that flag.)</span>
               </li>
               <li>
                 <strong>Windows:</strong> double-click the <code>.exe</code> · if SmartScreen warns, click <em>More info → Run anyway</em>.
               </li>
               <li>
-                <strong>Linux:</strong> <code>chmod +x Splash-linux-x86_64 && ./Splash-linux-x86_64</code>.
+                <strong>Linux:</strong> <code>chmod +x Cast-linux-x86_64 && ./Cast-linux-x86_64</code>.
               </li>
               <li>
-                <strong>No FFmpeg installed?</strong> On Windows &amp; Linux, Splash offers a one-click download on first launch. On macOS, install with <code>brew install ffmpeg</code>.
+                <strong>No FFmpeg installed?</strong> On Windows &amp; Linux, Cast offers a one-click download on first launch. On macOS, install with <code>brew install ffmpeg</code>.
               </li>
             </ol>
           </motion.div>
@@ -189,7 +192,7 @@ export default function ThankYou() {
           >
             <div>
               <h3>Read the User Guide</h3>
-              <p>10-minute read · everything you need to know about Splash</p>
+              <p>10-minute read · everything you need to know about Cast</p>
             </div>
             <a
               href="https://github.com/mohamedalysayed/Splash-Video-Converter/blob/main/USER_GUIDE.md"
@@ -222,7 +225,7 @@ export default function ThankYou() {
       <footer className="footer container">
         <div className="footer__brand">
           <span className="nav__logo" style={{ width: 22, height: 22, borderRadius: 6, fontSize: 11 }}>▶</span>
-          Splash
+          Cast <span style={{ color: "var(--ink-faint)", fontWeight: 500, marginLeft: 6 }}>by Splash</span>
         </div>
         <div>Thanks for buying. Now go convert something. 🎬</div>
       </footer>

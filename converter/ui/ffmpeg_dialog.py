@@ -41,11 +41,11 @@ class FFmpegSetupDialog(QDialog):
         title = QLabel("One more thing…")
         title.setObjectName("SectionTitle")
 
-        heading = QLabel("Splash needs FFmpeg")
+        heading = QLabel("Cast needs FFmpeg")
         heading.setStyleSheet("font-size: 22px; font-weight: 700; letter-spacing: -0.3px;")
 
         msg = QLabel(
-            "Splash uses FFmpeg under the hood to convert your files. "
+            "Cast uses FFmpeg under the hood to convert your files. "
             "We can download a fresh copy into the app's private folder (no admin rights needed), "
             "or you can install FFmpeg yourself and check again."
         )

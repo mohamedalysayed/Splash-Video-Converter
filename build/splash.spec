@@ -33,7 +33,7 @@ exe = EXE(
     a.zipfiles,
     a.datas,
     [],
-    name="Splash",
+    name="Cast",
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -52,16 +52,16 @@ exe = EXE(
 if IS_MAC:
     app = BUNDLE(
         exe,
-        name="Splash.app",
+        name="Cast.app",
         icon=None,
-        bundle_identifier="com.splash.videoconverter",
+        bundle_identifier="com.splash.cast",
         info_plist={
-            "CFBundleName": "Splash",
-            "CFBundleDisplayName": "Splash",
-            "CFBundleShortVersionString": "1.0.0",
-            "CFBundleVersion": "1.0.0",
+            "CFBundleName": "Cast",
+            "CFBundleDisplayName": "Cast",
+            "CFBundleShortVersionString": "1.0.1",
+            "CFBundleVersion": "1.0.1",
             "NSHighResolutionCapable": True,
             "LSMinimumSystemVersion": "11.0",
-            "NSHumanReadableCopyright": "© 2026 Mohamed Aly Sayed",
+            "NSHumanReadableCopyright": "© 2026 Mohamed Aly Sayed · Splash",
         },
     )

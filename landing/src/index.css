@@ -122,6 +122,24 @@ button { font-family: inherit; cursor: pointer; }
   font-size: 17px;
   letter-spacing: -0.02em;
 }
+.nav__brand-stack {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+  gap: 2px;
+}
+.nav__brand-name {
+  font-weight: 700;
+  font-size: 17px;
+  letter-spacing: -0.02em;
+}
+.nav__brand-sub {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--ink-faint);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
 .nav__logo {
   width: 28px;
   height: 28px;

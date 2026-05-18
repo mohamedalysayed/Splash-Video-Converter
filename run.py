@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Launch Splash — Video Converter."""
+"""Launch Cast — Video Converter by Splash."""
 from converter.app import main
 
 if __name__ == "__main__":
