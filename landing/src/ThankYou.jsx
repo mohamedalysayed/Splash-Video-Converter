@@ -52,11 +52,36 @@ export default function ThankYou() {
   const reduce = useReducedMotion();
   const [detected, setDetected] = useState(null);
   const [sessionId, setSessionId] = useState(null);
+  // Gating: "loading" → "valid" → reveal | "invalid" → reject view
+  const [verifyState, setVerifyState] = useState("loading");
+  const [verifyData, setVerifyData] = useState(null);
 
   useEffect(() => {
     setDetected(detectOS());
     const params = new URLSearchParams(window.location.search);
-    setSessionId(params.get("session_id"));
+    const sid = params.get("session_id");
+    setSessionId(sid);
+
+    if (!sid) {
+      setVerifyState("invalid");
+      return;
+    }
+
+    (async () => {
+      try {
+        const res = await fetch(`/api/verify-session?session_id=${encodeURIComponent(sid)}`);
+        const data = await res.json();
+        if (data.valid) {
+          setVerifyState("valid");
+          setVerifyData(data);
+        } else {
+          setVerifyState("invalid");
+          setVerifyData(data);
+        }
+      } catch (e) {
+        setVerifyState("invalid");
+      }
+    })();
   }, []);
 
   const detectedIndex = {
@@ -84,6 +109,10 @@ export default function ThankYou() {
         </div>
       </nav>
 
+      {verifyState === "loading" && <VerifyLoader />}
+      {verifyState === "invalid" && <VerifyRejected reason={verifyData?.reason} />}
+
+      {verifyState === "valid" && (
       <main className="ty__main">
         <div className="container">
           <motion.div
@@ -217,6 +246,7 @@ export default function ThankYou() {
           </motion.div>
         </div>
       </main>
+      )}
 
       <footer className="footer container">
         <div className="footer__brand">
@@ -405,7 +435,126 @@ export default function ThankYou() {
         .ty__support h3 { margin: 0 0 6px; font-size: 16px; font-weight: 700; }
         .ty__support p { margin: 0; font-size: 14px; color: var(--ink-muted); }
         .ty__support a { color: var(--ink); text-decoration: underline; }
+
+        /* ── Gate states ───────────────────────────────────── */
+        .ty-gate {
+          min-height: calc(100vh - 200px);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 80px 24px;
+        }
+        .ty-gate__inner {
+          max-width: 520px;
+          text-align: center;
+        }
+        .ty-spinner {
+          width: 44px; height: 44px;
+          margin: 0 auto 24px;
+          border-radius: 999px;
+          border: 3px solid var(--bg-muted);
+          border-top-color: var(--ink);
+          animation: ty-spin 0.9s linear infinite;
+        }
+        @keyframes ty-spin { to { transform: rotate(360deg); } }
+        .ty-gate__title {
+          font-size: clamp(24px, 4vw, 32px);
+          font-weight: 800;
+          letter-spacing: -0.02em;
+          margin: 0 0 12px;
+          color: var(--ink);
+        }
+        .ty-gate__sub {
+          font-size: 16px;
+          color: var(--ink-muted);
+          line-height: 1.55;
+          margin: 0;
+        }
+        .ty-gate__lock {
+          width: 56px; height: 56px;
+          margin: 0 auto 22px;
+          border-radius: 14px;
+          display: grid; place-items: center;
+          background: var(--bg-elevated);
+          border: 1px solid var(--line);
+          color: var(--ink-muted);
+          box-shadow: var(--shadow-sm);
+        }
+        .ty-gate__actions {
+          display: flex;
+          gap: 12px;
+          justify-content: center;
+          margin-top: 28px;
+          flex-wrap: wrap;
+        }
+        .ty-gate__btn {
+          padding: 12px 22px;
+          border-radius: 999px;
+          font-size: 14px;
+          font-weight: 600;
+          background: var(--ink);
+          color: #fafafa;
+          transition: transform 200ms var(--ease-out);
+        }
+        .ty-gate__btn:hover { transform: translateY(-1px); }
+        .ty-gate__btn--ghost {
+          background: transparent;
+          color: var(--ink);
+          border: 1px solid var(--line-strong);
+        }
+        .ty-gate__btn--ghost:hover { background: var(--bg-elevated); }
       `}</style>
     </div>
+  );
+}
+
+/* ─── Gate views (loader + rejected) ────────────────────── */
+
+function VerifyLoader() {
+  return (
+    <main className="ty-gate">
+      <div className="ty-gate__inner">
+        <div className="ty-spinner" />
+        <h2 className="ty-gate__title">Verifying your purchase…</h2>
+        <p className="ty-gate__sub">
+          One sec. We're checking with Stripe to confirm your payment landed.
+        </p>
+      </div>
+    </main>
+  );
+}
+
+function VerifyRejected({ reason }) {
+  const headlines = {
+    no_session_id:        "This page is for verified buyers only.",
+    not_paid:             "We couldn't confirm your payment yet.",
+    invalid_session:      "We can't find that purchase.",
+    server_misconfigured: "Something's off on our end.",
+  };
+  const subs = {
+    no_session_id:        "If you just paid, please use the link in your Stripe receipt email — it includes the verification code that unlocks the downloads.",
+    not_paid:             "Your Stripe session exists but the payment hasn't completed. If your card is being charged, give it a minute and refresh.",
+    invalid_session:      "The verification code in this URL doesn't match a real Stripe checkout. If you paid, check your receipt email for the correct link.",
+    server_misconfigured: "The site is temporarily unable to verify purchases. Please email muhammmedaly@gmail.com with your Stripe receipt and we'll send your downloads directly.",
+  };
+  const title = headlines[reason] || headlines.invalid_session;
+  const sub   = subs[reason]      || subs.invalid_session;
+  return (
+    <main className="ty-gate">
+      <div className="ty-gate__inner">
+        <div className="ty-gate__lock" aria-hidden>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" />
+            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+          </svg>
+        </div>
+        <h2 className="ty-gate__title">{title}</h2>
+        <p className="ty-gate__sub">{sub}</p>
+        <div className="ty-gate__actions">
+          <a href="/" className="ty-gate__btn">Back to Cast</a>
+          <a href="mailto:muhammmedaly@gmail.com?subject=Cast%20download%20issue" className="ty-gate__btn ty-gate__btn--ghost">Email support</a>
+        </div>
+      </div>
+    </main>
   );
 }
