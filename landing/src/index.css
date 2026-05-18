@@ -426,10 +426,10 @@ button { font-family: inherit; cursor: pointer; }
 }
 .queue-row {
   display: grid;
-  grid-template-columns: 24px 1fr 80px 90px;
+  grid-template-columns: 22px minmax(120px, 1fr) minmax(120px, 180px) 44px 86px;
   align-items: center;
-  gap: 12px;
-  padding: 12px 14px;
+  gap: 14px;
+  padding: 12px 16px;
   border-bottom: 1px solid var(--line-faint);
   font-size: 13px;
 }
@@ -477,8 +477,9 @@ button { font-family: inherit; cursor: pointer; }
 
 @media (max-width: 640px) {
   .controls { grid-template-columns: 1fr; }
-  .queue-row { grid-template-columns: 18px 1fr 60px; }
-  .queue-row__pct { display: none; }
+  .queue-row { grid-template-columns: 18px 1fr 36px; gap: 10px; padding: 10px 12px; }
+  .queue-row__bar,
+  .queue-row .pill { display: none; }
   .window__body { padding: 18px; }
 }
 

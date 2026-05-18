@@ -18,12 +18,6 @@ const DOWNLOADS = [
     icon:  "🍎",
   },
   {
-    os:    "macOS",
-    sub:   "Intel · macOS 11+",
-    file:  "Splash-macos-x64.dmg",
-    icon:  "🍎",
-  },
-  {
     os:    "Windows",
     sub:   "Windows 10/11 · 64-bit",
     file:  "Splash-windows-x64.exe",
@@ -67,9 +61,9 @@ export default function ThankYou() {
 
   const detectedIndex = {
     "macos-arm":   0,
-    "macos-intel": 1,
-    "windows":     2,
-    "linux":       3,
+    "macos-intel": 0,
+    "windows":     1,
+    "linux":       2,
   }[detected];
 
   return (
@@ -249,12 +243,14 @@ export default function ThankYou() {
         }
         .ty__grid {
           display: grid;
-          grid-template-columns: repeat(4, 1fr);
+          grid-template-columns: repeat(3, 1fr);
           gap: 16px;
           margin-bottom: 64px;
+          max-width: 760px;
+          margin-left: auto;
+          margin-right: auto;
         }
-        @media (max-width: 900px) { .ty__grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 520px) { .ty__grid { grid-template-columns: 1fr; } }
+        @media (max-width: 720px) { .ty__grid { grid-template-columns: 1fr; } }
         .ty__card {
           position: relative;
           background: var(--bg-elevated);

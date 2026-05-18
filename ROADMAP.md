@@ -1,150 +1,116 @@
-# Splash — Roadmap
+# Roadmap
 
-> Path from "landing page deployed" → "money in the bank → binary in the customer's hands."
+What's shipped, what's next, and what's deliberately not on the list.
 
----
-
-## Phase 0 — ✅ Done
-
-- [x] App built (PySide6, FFmpeg front-end, iOS-inspired UI)
-- [x] Landing page designed & deployed → https://splash-video-converter.netlify.app
-- [x] Stripe payment link wired into all CTAs ($19 launch / $39 strikethrough)
-- [x] `/thank-you` success page with OS-auto-detect + 4 download buttons
-- [x] Stripe `success_url` template documented (`?session_id={CHECKOUT_SESSION_ID}`)
+This is a living document. Dates are rough. Priorities shift based on what actual customers ask for, not what would be fun to build.
 
 ---
 
-## Phase 1 — Make it buyable end-to-end
+## Shipped (v1.0)
 
-The landing page can take money today. The buyer flow is:
-**Stripe checkout → `/thank-you` → download button per OS → install**.
-
-### 1.1 — Cross-OS binaries (release artifacts) — ✅ Wired
-
-CI builds all four artifacts on every `v*` git tag and publishes a GitHub Release. The `/thank-you` page links to `releases/latest/download/Splash-*` — start working the moment v1.0.0 is tagged.
-
-- [x] **macOS — Apple Silicon** → `Splash-macos-arm64.dmg` (macos-14 runner, ad-hoc signed, DMG with drag-to-Applications layout)
-- [x] **macOS — Intel** → `Splash-macos-x64.dmg` (macos-13 runner, same packaging)
-- [x] **Windows — x64** → `Splash-windows-x64.exe` (windows-latest)
-- [x] **Linux — x64** → `Splash-linux-x86_64` (ubuntu-latest)
-
-Trigger: `git tag v1.0.0 && git push origin v1.0.0`. Build time ~6–10 min.
-
-#### Known gaps (not blockers — paid upgrades)
-
-- **macOS Gatekeeper warning** — Ad-hoc signing avoids the worst "is damaged" crash but does NOT bypass Gatekeeper. First-time users hit *"Splash is damaged and can't be opened"* and need to run `xattr -cr /Applications/Splash.app`. This is documented prominently on the success page and in the README. **Fix:** Apple Developer ID ($99/yr) + `notarytool` step in CI. ~30 min to wire once the cert is paid for.
-- **Windows SmartScreen warning** — Users click *More info → Run anyway* on first launch. **Fix:** EV code-signing cert (~$200/yr) — solves it permanently after Microsoft's reputation engine catches up.
-- **Intel Mac runner deprecation risk** — GitHub may sunset `macos-13` in late 2026. **Fix:** ship Apple-Silicon-only when that happens (95%+ of new Mac sales are AS by then). Or invest in universal2 builds via `lipo` — more complex.
-- **Linux distros** — Single ELF binary works on Ubuntu/Fedora/Arch with modern glibc. **Future:** add proper `.deb`, `.rpm`, AppImage, and Flatpak when there's demand.
-
-### 1.2 — Gated binary delivery (the missing link)
-
-Right now Stripe takes the money and the customer gets a thank-you page. They need the binary. Recommended architecture below — see the FAQ at the bottom of this document for the full reasoning.
-
-**Stack:**
-- **Storage:** Cloudflare R2 (free: 10 GB storage, zero egress fees)
-- **Webhook:** Netlify Function (free tier) listens for `checkout.session.completed`
-- **Delivery:** Webhook generates a 7-day signed R2 URL per binary and emails it via Resend (free: 3k emails/mo)
-- **License key (optional, later):** Generate a per-customer unlock key, store in a tiny KV (Cloudflare KV / Upstash Redis)
-
-**Estimated effort:** 3–4 hours once binaries exist. Stays at $0/month until you cross ~10k downloads.
-
-### 1.3 — Stripe success page — ✅ Done
-
-Live at https://splash-video-converter.netlify.app/thank-you. To wire Stripe:
-
-1. Stripe Dashboard → Payment Links → your link → **After payment**
-2. Set custom URL to:
-   ```
-   https://splash-video-converter.netlify.app/thank-you?session_id={CHECKOUT_SESSION_ID}
-   ```
-
-The page auto-detects the buyer's OS, highlights their match, and shows download links for all four artifacts. Once Phase 1.2 (R2 + webhook) is in place, the same page polls `/api/order-status?session_id=…` and only shows downloads to verified buyers.
-
-### 1.4 — Domain mapping
-
-- [ ] Buy domain (suggestions: `splashconverter.app`, `getsplash.io`, `usesplash.com`, `splashvideo.app`)
-- [ ] Add to Netlify project: `netlify domains:add <domain>`
-- [ ] Update DNS at registrar (Netlify gives the records)
-- [ ] Enable HTTPS (Netlify provisions Let's Encrypt automatically)
+- The app itself — PySide6 UI, FFmpeg back-end, parallel queue, dark + light themes
+- Landing page at [splash-video-converter.netlify.app](https://splash-video-converter.netlify.app) — Vite + React + Framer Motion, greyscale system
+- Stripe checkout wired into every CTA at $19 once
+- `/thank-you` success page with auto-OS-detection and direct download links per platform
+- CI builds for macOS (Apple Silicon), Windows, and Linux on every `v*` tag, with a `.dmg` for macOS
 
 ---
 
-## Phase 2 — Get the first 100 customers
+## Next up (v1.1)
 
-- [ ] Record a 60-second demo video (drag a file → watch it convert) — embed on landing page
-- [ ] Add 2–3 testimonials section (early users via Twitter/Reddit DMs)
-- [ ] Launch on **Product Hunt** — Tuesday/Wednesday 12:01am PST
-- [ ] Post on **r/macapps**, **r/software**, **r/linux_gaming**, **r/videography**
-- [ ] **Hacker News** — Show HN with a clear "no subscription, no telemetry, no AI" framing
-- [ ] **GitHub stars push** — pin repo, write release notes, ask for stars in app footer
+### Ship the Intel Mac binary
 
----
+GitHub's `macos-13` runner pool is starved as of early 2026 — jobs sit queued for hours. Switching to a `universal2` build on `macos-14` (one binary for both architectures) is the right move. Apple Silicon already covers most of the Mac install base; this closes the gap.
 
-## Phase 3 — Compound the asset
+**Effort:** half a day. Mostly verifying PySide6's universal2 wheels survive PyInstaller.
 
-- [ ] **Free version** with a watermark or single-file limit (funnel for paid)
-- [ ] **SEO landing pages** for high-intent searches: "convert mkv to mov mac", "best mp4 converter mac", "handbrake alternative", "permute alternative windows"
-- [ ] **Affiliate program** — 30% commission, payable in cash, no minimum payout
-- [ ] **Bundle discount** — Splash + Splash-Accountability + future Splash tools at "buy 2 get 1 free"
-- [ ] **Lifetime updates promise** is already in copy — honor it religiously
+### Email backup of the download link
+
+Right now if the buyer closes the success tab, their only proof of purchase is the Stripe receipt — which has no download URL. A Netlify Function listening to the Stripe webhook can email the download links via Resend the moment the payment lands. Three-hour job once the keys are wired.
+
+### A 60-second demo video
+
+Embedded above the fold on the landing page. The single biggest conversion lever for a paid utility, full stop. I'll record it the moment I have a clean test machine.
 
 ---
 
-## Phase 4 — Strategic optionality
+## When the numbers justify it
 
-- [ ] **Watch competitor pricing.** If Permute raises, raise. If Wondershare drops, ignore.
-- [ ] **One-time → "Pro" tier** ($49 once) adds: hardware encoding (NVENC/QSV/VideoToolbox), subtitle burn-in, batch metadata edit
-- [ ] **Team license** at $99 for 5 seats — pure margin
-- [ ] **Sell the asset** on Acquire.com once it clears $3k+ MRR (one-time amortized). 2.5–4× ARR is the going rate for indie utility tools.
+These have real costs (money or time) and only make sense once Splash is provably making money.
+
+### Apple Developer ID — $99/year
+
+Stops the `xattr -cr` step on first launch. Roughly 10% of macOS buyers will refund over that friction, so it pays for itself somewhere around the 50th sale. The build job is a 30-minute change once the cert exists.
+
+### Gated downloads via Cloudflare R2 + signed URLs
+
+Today the binaries live on public GitHub Release URLs. Anyone with the link can download without paying — the product runs on the honor system. This isn't actually a problem until it is: the people who'd hunt for direct links are the same people who'd find a leaked mirror anyway.
+
+When sales hit something like 50+/month and a forum thread starts circulating direct links, the migration is:
+
+1. Move binaries from GitHub Releases to a private R2 bucket
+2. Stripe webhook → Netlify Function generates a 7-day signed R2 URL
+3. Function emails it via Resend
+4. `/thank-you` page polls `/api/order-status?session_id=…` and only shows downloads to verified buyers
+
+Total: ~4 hours of work. Stays free at any reasonable scale (R2 has zero egress fees).
+
+### Windows EV code-signing cert — ~$200/year
+
+Kills the SmartScreen warning permanently. Lower priority than the Mac signing because most Windows buyers click through it without much friction. Worth doing once Windows sales prove out.
+
+### Custom domain
+
+`splash-video-converter.netlify.app` is fine for launch but looks unfinished. Something like `splashconverter.app` (~$15/year) signals "real product." Five-minute DNS change once a domain is registered.
 
 ---
 
-## Appendix: "Can I host binaries for free and gate them behind Stripe?"
+## Probably never
 
-**TL;DR — Yes. Here's the honest breakdown.**
+A short list of things people will ask for that I'm not going to build, because the whole point of Splash is the small surface area:
 
-### Options I considered
+- **A library / clip manager.** Splash converts files. Your OS already has a file manager. Use Finder.
+- **Cloud features.** No accounts. No sync. No "Splash for Teams." It's a desktop tool.
+- **AI upscaling / re-cuts / "smart edits."** There are good tools for those and they're not Splash.
+- **Telemetry, analytics, or any kind of phone-home.** Splash should work the same with the network cable yanked.
+- **A free tier with watermarks.** Insulting to free users, dishonest as a funnel. Either it's free (build from source — anyone can) or it's $19.
 
-| Host | Free tier | Gated? | Verdict |
-|---|---|---|---|
-| **GitHub Releases** | Unlimited | ❌ Public URLs | Free piracy. Skip. |
-| **Netlify static** | 100 GB/mo bandwidth | ❌ Public | Same issue. Skip. |
-| **Cloudflare R2** | 10 GB storage, **zero egress fees** | ✅ via signed URLs | **Winner.** |
-| **Backblaze B2** | 10 GB storage, 1 GB egress/day | ✅ via signed URLs | Egress limit will bite at scale. |
-| **AWS S3** | 5 GB, 100 GB egress | ✅ via presigned URLs | Egress costs after free tier hurt fast. |
-| **LemonSqueezy / Gumroad** | Free | ✅ Built-in delivery | Trade ~5% fee + no Stripe for zero-effort delivery. |
+---
 
-### Recommended: Cloudflare R2 + Netlify Functions
+## Growth (the boring half)
 
-```
-[Customer]         [Stripe]              [Netlify Function]      [Cloudflare R2]      [Resend]
-    │                 │                        │                       │                  │
-    │── Buy $19 ─────>│                        │                       │                  │
-    │                 │── checkout.session.    │                       │                  │
-    │                 │   completed webhook ──>│                       │                  │
-    │                 │                        │── Sign 7-day URL ────>│                  │
-    │                 │                        │<──── signed URL ──────│                  │
-    │                 │                        │── Email download link ──────────────────>│
-    │<──────── Email with download links arrives ────────────────────────────────────────│
-```
+Building the thing is the easy part. Getting customers is everything.
 
-- **Total monthly cost at < 10,000 sales:** $0
-- **Total monthly cost at 100,000 sales:** ~$5 (R2 storage tier)
-- **Total setup time once binaries exist:** 3–4 hours
+### Launch week
 
-### Why not just use GitHub Releases?
+- Post on [Product Hunt](https://www.producthunt.com), aiming for a Tuesday or Wednesday 12:01 AM PST drop
+- "Show HN" on Hacker News — lead with the open-source pitch, not the price
+- Cross-post to `r/macapps`, `r/software`, `r/linux_gaming`, `r/videography`, `r/podcasting`
+- Tweet thread with the 60-sec demo
 
-Because anyone on the internet can `wget` the URL. You'd be selling something they could get for free in 5 seconds via Google. The whole "buy once" pitch dies. Use private storage + signed URLs.
+### Month one
 
-### Alternative: Switch from Stripe to LemonSqueezy
+- Reach out to 5 YouTube channels that cover indie Mac/Windows software
+- Write one technical blog post — "Building a cross-platform desktop app with PySide6 in 2026" — and post it on Lobsters
+- SEO landing pages for high-intent keywords: "convert mkv to mov mac", "handbrake alternative", "permute alternative windows", "best mp4 converter no subscription"
 
-If you don't want to write the webhook glue at all, **LemonSqueezy** (or Gumroad/Paddle) handles the entire flow:
-- They host the binaries
-- They handle EU VAT / US sales tax (Stripe doesn't — you'd owe this manually)
-- They email the download links
-- They handle license keys
+### Steady state
 
-**Cost:** 5% + 50¢ per transaction (vs Stripe's 2.9% + 30¢). For a $19 product, that's ~$1.50 to LS vs ~$0.85 to Stripe — extra $0.65/sale to skip a weekend of plumbing. At 100 sales/month, that's $65/mo for total convenience. Often worth it for a solo founder.
+- Lifetime updates promise honored, no exceptions
+- Listen to support email. Build what people actually ask for twice.
+- Don't add features for hypothetical users
 
-**Recommendation:** Start with Stripe + R2 + webhook (you already have Stripe). If post-launch the webhook becomes annoying to maintain, migrate to LemonSqueezy. Don't pre-optimize.
+---
+
+## Strategic options (later)
+
+These are the "if Splash works, then what" branches.
+
+- **Splash Pro at $49 once** — hardware encoding (NVENC / QSV / VideoToolbox), subtitle burn-in, batch metadata edit. Pure margin once the core is steady.
+- **Team license at $99 for 5 seats** — for studios and agencies. Same binary, different receipt.
+- **Bundle pricing with other Splash tools** — if I ship a second Splash product, "buy 2 get 1 free" works well in indie land.
+- **Acquisition** — micro-acquisition platforms (Acquire.com, MicroAcquire) trade indie utility tools at 2.5–4× annual revenue. Once Splash clears $3K MRR (one-time amortized) it's a sellable asset. Not the goal, but worth knowing the floor.
+
+---
+
+*Last meaningfully updated when v1.0 shipped. If this doc looks stale, it probably is — open an issue.*

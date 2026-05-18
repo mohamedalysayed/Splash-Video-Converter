@@ -243,12 +243,12 @@ function Queue() {
     const id = setInterval(() => {
       setProgress((prev) =>
         prev.map((p, i) => {
-          const speed = [2.1, 1.4, 0.9][i];
+          const speed = [1.05, 0.72, 0.48][i];
           const next = p + speed;
           return next >= 100 ? Math.max(0, (i * 12) % 20) : next;
         })
       );
-    }, 120);
+    }, 160);
     return () => clearInterval(id);
   }, [reduce]);
 
@@ -272,13 +272,11 @@ function Queue() {
             <div className="queue-row__bar">
               <motion.div
                 animate={{ width: `${pct}%` }}
-                transition={{ duration: 0.12, ease: "linear" }}
+                transition={{ duration: 0.16, ease: "linear" }}
               />
             </div>
-            <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", gap: 8 }}>
-              <span className="queue-row__pct">{pct}%</span>
-              <StatusPill status={status} />
-            </div>
+            <span className="queue-row__pct">{pct}%</span>
+            <StatusPill status={status} />
           </div>
         );
       })}

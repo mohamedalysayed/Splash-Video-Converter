@@ -31,12 +31,9 @@ jobs:
             artifact: Splash-macos-arm64.dmg
             pyinstaller-out: dist/Splash.app
             kind: macapp
-
-          - label: macos-x64
-            os: macos-13
-            artifact: Splash-macos-x64.dmg
-            pyinstaller-out: dist/Splash.app
-            kind: macapp
+          # Intel Mac builds were on macos-13. GitHub's macos-13 runner pool
+          # is starved as of 2026 — jobs queue for hours. v1.x ships Apple
+          # Silicon only; Intel returns in v1.1 as a universal2 build off macos-14.
     steps:
       - uses: actions/checkout@v4
 

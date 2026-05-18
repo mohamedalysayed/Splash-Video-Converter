@@ -1,299 +1,147 @@
-# Splash — Video Converter
+# Splash
 
-> A beautiful, modern, cross-platform video & audio converter. Drop files in, pick a format, press Start.
+> A video converter that gets out of your way. Drop a file, pick a format, hit Start.
 
-![License](https://img.shields.io/badge/license-GPL--3.0-blue)
-![Python](https://img.shields.io/badge/python-3.9%2B-green)
-![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey)
-![UI](https://img.shields.io/badge/UI-PySide6-41CD52)
+[![License](https://img.shields.io/badge/license-GPL--3.0-1c1c1e?style=flat-square)](LICENSE)
+[![Python](https://img.shields.io/badge/python-3.9%2B-1c1c1e?style=flat-square)](https://www.python.org)
+[![Platforms](https://img.shields.io/badge/macOS-%C2%B7%20Windows%20%C2%B7%20Linux-1c1c1e?style=flat-square)](#download)
+[![Buy Splash](https://img.shields.io/badge/Buy%20Splash-%2419%20once-0a0a0a?style=flat-square)](https://splash-video-converter.netlify.app)
 
-Splash is a clean, opinionated FFmpeg front-end with a **modern iOS-inspired interface**. No command lines, no guesswork — drop a file on the window, pick an output format, and hit *Start*. It handles everything from a single clip to a whole folder of 4K footage.
+Splash is what FFmpeg should have looked like the day it shipped. Drag in a clip — or an entire folder of 4K footage — pick an output format, watch the queue chew through it. No command line. No 200-deep menu. No subscription dragging you down.
 
+Built in PySide6, runs on macOS, Windows, and Linux. ~74 MB single binary. Ships with sane defaults so the first run is as good as the hundredth.
 
-<img width="962" height="1062" alt="image" src="https://github.com/user-attachments/assets/71edc6cf-dfe7-4e21-81b3-ffd07680f934" />
-
----
-
-## Table of contents
-
-- [Highlights](#highlights)
-- [Install — step by step](#install--step-by-step)
-  - [Windows](#windows)
-  - [macOS](#macos)
-  - [Linux](#linux)
-- [Run Splash](#run-splash)
-- [How to use Splash](#how-to-use-splash)
-- [Supported formats](#supported-formats)
-- [Quality presets](#quality-presets)
-- [Settings & shortcuts](#settings--shortcuts)
-- [Building your own binary](#building-your-own-binary)
-- [Troubleshooting](#troubleshooting)
-- [Project layout](#project-layout)
-- [Contributing](#contributing)
-- [License](#license)
+<p align="center">
+  <img width="900" alt="Splash converting a queue of files" src="https://github.com/user-attachments/assets/71edc6cf-dfe7-4e21-81b3-ffd07680f934" />
+</p>
 
 ---
 
-## Highlights
+## Why this exists
 
-- **iOS-inspired UI** — SF-style typography, systemBlue accents, soft cards, animated drop zone, pill status badges, gradient progress bars.
-- **Any → any.** Convert between MKV, MP4, MOV, WebM, AVI, GIF, MP3, M4A, and WAV in any combination.
-- **Drag & drop.** Drop individual files or entire folders; Splash recursively finds every supported file.
-- **Real progress per file.** Parses FFmpeg's structured progress output — shows %, speed, and ETA.
-- **Parallel queue.** Runs multiple conversions simultaneously (defaults to half your CPU cores, tunable).
-- **Zero-setup on Windows & Linux.** Missing FFmpeg? Splash offers a one-click download into its private folder.
-- **Dark & light themes.** Toggle instantly with `Ctrl+T`.
-- **Safe output naming.** Never overwrites your source files. Auto-numbers collisions (`clip (2).mp4`).
-- **Cancel & clean up.** Cancel running jobs any time — partial output files are removed automatically.
+I needed to convert about 200 MKV files to MOV one afternoon. HandBrake's queue UI made me want to put my laptop in the ocean. Adobe Media Encoder wanted $22/month for the privilege. Wondershare and Movavi tried to sell me 14 unrelated tools and called it a "Pro Suite."
+
+So I wrote Splash. One window. One queue. The conversion happens and it's beautiful while it does. That's the whole thing.
+
+If you've ever right-clicked a video file, scrolled past 9 menu items, opened a tool with three nested tabs, and thought *"this should be a button"* — this is for you.
 
 ---
 
-## Install — step by step
+## Download
 
-You have two choices:
-1. **Pre-built binary** — download and run, nothing to install.
-2. **From source** — needs Python 3.9+.
-
-### Pre-built binaries — every OS
-
-Grab the latest from the [Releases](https://github.com/mohamedalysayed/Splash-Video-Converter/releases/latest) page:
+Pre-built binaries for every platform live on the [Releases](https://github.com/mohamedalysayed/Splash-Video-Converter/releases/latest) page:
 
 | OS | File | Notes |
 |---|---|---|
-| **macOS — Apple Silicon (M1/M2/M3/M4)** | `Splash-macos-arm64.dmg` | macOS 11+. Open DMG, drag to Applications. |
-| **macOS — Intel** | `Splash-macos-x64.dmg` | macOS 11+. Open DMG, drag to Applications. |
-| **Windows — 64-bit** | `Splash-windows-x64.exe` | Windows 10/11. Just double-click. |
-| **Linux — 64-bit** | `Splash-linux-x86_64` | `chmod +x` then run. Single binary, no install. |
+| **macOS** (Apple Silicon) | `Splash-macos-arm64.dmg` | macOS 11+. M1/M2/M3/M4. Intel returns in v1.1. |
+| **Windows** | `Splash-windows-x64.exe` | Windows 10/11, 64-bit. |
+| **Linux** | `Splash-linux-x86_64` | Single ELF. `chmod +x` then run. |
 
-If you bought Splash, your `/thank-you` page after checkout has direct download links for every OS and auto-detects yours.
+> Prefer to support the work? The polished build with auto-updates is [$19, one-time, at splash-video-converter.netlify.app](https://splash-video-converter.netlify.app). No subscriptions, ever.
 
-#### macOS — first launch unblock
+### macOS — the "is damaged" workaround
 
-We don't pay Apple's $99/yr Developer Program fee, so macOS will refuse the app on first launch with *"Splash is damaged and can't be opened"*. **One-time fix:**
+Apple charges $99/year to notarize apps. Until Splash makes enough to justify it, macOS will refuse the app on first launch with *"Splash is damaged and can't be opened."* One-time fix in Terminal:
 
 ```bash
 xattr -cr /Applications/Splash.app
 ```
 
-That's it. Splash launches normally from then on. This is Apple's standard workaround for any self-distributed app; you only do it once.
+That's the whole workaround. You'll never see it again.
 
-#### Windows — SmartScreen unblock
+### Windows — the SmartScreen detour
 
-The first time you run the `.exe`, SmartScreen may say *"Windows protected your PC."* Click **More info → Run anyway**. Splash is not signed with an EV cert (that's another ~$200/yr) so SmartScreen flags it until Microsoft's reputation engine catches up.
-
----
-
-### Windows — from source
-
-#### Option A — Pre-built binary (easiest)
-
-1. Go to the [Releases](https://github.com/mohamedalysayed/Splash-Video-Converter/releases) page.
-2. Download `Splash-windows-x64.exe`.
-3. Double-click it. Done.
-
-On first launch, if FFmpeg isn't already on your system, Splash will offer to download it for you — no admin rights needed.
-
-#### Option B — From source
-
-```powershell
-# 1. Install Python 3.9+ from https://www.python.org/downloads/
-#    During install, TICK "Add Python to PATH".
-
-# 2. Open PowerShell and clone the repo
-git clone https://github.com/mohamedalysayed/Splash-Video-Converter.git
-cd Splash-Video-Converter
-
-# 3. (Optional but recommended) create a virtual env
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-
-# 4. Install the one runtime dependency
-pip install -r requirements.txt
-
-# 5. Run it
-python run.py
-```
-
-> FFmpeg: if you already have it installed, Splash finds it automatically. Otherwise click **Download FFmpeg** on the welcome screen.
+First launch may show *"Windows protected your PC."* Click **More info → Run anyway**. Microsoft's reputation engine takes a few weeks of downloads to relax.
 
 ---
 
-### macOS
+## Building from source
 
-#### Prerequisites
-
-```bash
-# Install Homebrew if you don't have it
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-# Install Python and FFmpeg (automatic download is not supported on macOS)
-brew install python@3.11 ffmpeg
-```
-
-#### Run from source
+You need Python 3.9 or newer and the system Qt libraries.
 
 ```bash
 git clone https://github.com/mohamedalysayed/Splash-Video-Converter.git
 cd Splash-Video-Converter
 
 python3 -m venv .venv
-source .venv/bin/activate
+source .venv/bin/activate          # Windows: .venv\Scripts\Activate.ps1
 
 pip install -r requirements.txt
 python run.py
 ```
 
----
-
-### Linux
-
-#### 1. Install Python 3.9+ and system Qt libraries
-
-**Debian / Ubuntu / Mint / Pop!_OS:**
-```bash
-sudo apt update
-sudo apt install -y python3 python3-venv python3-pip \
-    libxcb-cursor0 libxkbcommon-x11-0 libxcb-icccm4 \
-    libxcb-image0 libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 \
-    libxcb-shape0 libxcb-xinerama0 libxcb-xkb1 libegl1 libgl1
-```
-
-**Fedora / RHEL:**
-```bash
-sudo dnf install -y python3 python3-pip python3-virtualenv \
-    xcb-util-cursor libxkbcommon-x11 mesa-libEGL mesa-libGL
-```
-
-**Arch / Manjaro:**
-```bash
-sudo pacman -S --needed python python-pip python-virtualenv \
-    xcb-util-cursor libxkbcommon-x11
-```
-
-#### 2. (Optional) Install FFmpeg system-wide
-
-Splash can download a static FFmpeg build for you on first launch, but you can also install it yourself:
+**Linux system deps** (one of these, depending on distro):
 
 ```bash
-# Debian / Ubuntu
-sudo apt install ffmpeg
+# Debian / Ubuntu / Pop!_OS
+sudo apt install -y python3-venv libxcb-cursor0 libxkbcommon-x11-0 \
+  libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0 \
+  libxcb-render-util0 libxcb-shape0 libxcb-xinerama0 libxcb-xkb1 \
+  libegl1 libgl1
 
 # Fedora
-sudo dnf install ffmpeg
+sudo dnf install -y python3-virtualenv xcb-util-cursor libxkbcommon-x11 mesa-libEGL mesa-libGL
 
 # Arch
-sudo pacman -S ffmpeg
+sudo pacman -S --needed python python-virtualenv xcb-util-cursor libxkbcommon-x11
 ```
 
-#### 3. Clone and run
+**FFmpeg**: if it's already on your `PATH`, Splash finds it. If not, the welcome screen offers a one-click download into Splash's private folder. No admin rights, no PATH editing.
 
-```bash
-git clone https://github.com/mohamedalysayed/Splash-Video-Converter.git
-cd Splash-Video-Converter
-
-python3 -m venv .venv
-source .venv/bin/activate
-
-pip install -r requirements.txt
-python run.py
-```
+> On macOS the auto-download isn't supported yet — install FFmpeg with `brew install ffmpeg`.
 
 ---
 
-## Run Splash
+## Using Splash
 
-After installation, the launch command is always the same:
+There isn't much to learn. The whole UI fits in a screenshot.
 
-```bash
-python run.py
-```
+1. **Drop files** — single clips, whole folders, mixed types. Splash recursively finds every video and audio file inside.
+2. **Pick an output format** — MP4, MOV, MKV, WebM, AVI, GIF, MP3, M4A, WAV.
+3. **Pick a quality** — Original (near-lossless), High, Medium (default), Small.
+4. **Choose where files go** — next to the source (default) or a folder you pick.
+5. **Hit Start** — the queue runs in parallel across your CPU cores. Real % / speed / ETA per file, no fake spinners.
 
-Or install Splash as a package and get a `splash` command on your PATH:
-
-```bash
-pip install .
-splash
-```
-
-Where Splash stores its private data:
-
-| OS      | Folder                                                                    |
-| ------- | ------------------------------------------------------------------------- |
-| Windows | `%LOCALAPPDATA%\Splash\bin`                                               |
-| macOS   | `~/Library/Application Support/Splash/bin`                                |
-| Linux   | `~/.local/share/Splash/bin` *(respects `$XDG_DATA_HOME`)*                 |
-
----
-
-## How to use Splash
-
-1. **Open the app.** You'll see a hero bar, a big drop zone, a conversion options card, and an empty queue.
-2. **Add files.** Either:
-   - Drop files or entire folders onto the drop zone, **or**
-   - Click the drop zone, **or**
-   - `File → Add files…` (`Ctrl+O`) / `File → Add folder…` (`Ctrl+Shift+O`).
-3. **Pick an output format** — MP4, MOV, MKV, WebM, AVI, GIF, MP3, M4A, or WAV.
-4. **Pick a quality preset** — Original (near-lossless), High, Medium (default), or Small.
-5. **Choose where files go:**
-   - **Save next to source files** (checked by default), **or**
-   - Turn that off and choose an output folder.
-6. **Press *Start conversion*.** Watch the gradient progress bars — each row shows live %, speed, and ETA.
-7. **Cancel any time** via the Cancel button. Partial output files are automatically cleaned up.
-
-Splash **never overwrites** your source file. If an output name collides, it auto-numbers (`clip (2).mp4`, `clip (3).mp4`, …).
-
----
-
-## Supported formats
-
-### Inputs (anything FFmpeg can decode)
-
-MKV · MP4 · MOV · WebM · AVI · FLV · WMV · M4V · MPG/MPEG · TS/MTS/M2TS · OGV · 3GP · MP3 · M4A · WAV · FLAC · AAC · OGG · OPUS · WMA
-
-### Outputs
-
-| Container | Video  | Audio | Notes                                          |
-| --------- | ------ | ----- | ---------------------------------------------- |
-| **MP4**   | H.264  | AAC   | `+faststart` — ready for instant web playback  |
-| **MOV**   | H.264  | AAC   | `+faststart` — Apple-friendly                  |
-| **MKV**   | H.264  | AAC   | Universal container                            |
-| **WebM**  | VP9    | Opus  | Best for web                                   |
-| **AVI**   | MPEG-4 | MP3   | Legacy compatibility                           |
-| **GIF**   | —      | —     | 15 fps, 640px wide, paletted                   |
-| **MP3**   | —      | MP3   | Audio-only extract                             |
-| **M4A**   | —      | AAC   | Audio-only extract                             |
-| **WAV**   | —      | PCM   | Uncompressed audio                             |
-
----
-
-## Quality presets
-
-| Preset                   | CRF | Audio  | Best for                         |
-| ------------------------ | --- | ------ | -------------------------------- |
-| Original (near-lossless) | 17  | 320k   | Archival, masters                |
-| High                     | 20  | 256k   | Editing, high-quality delivery   |
-| **Medium** *(default)*   | 23  | 192k   | Everyday sharing                 |
-| Small                    | 28  | 128k   | Messaging, small disks           |
-
----
-
-## Settings & shortcuts
-
-Open **View → Settings…** (or the *Settings* button in the hero bar) to change:
-- **Theme** — Dark or Light
-- **Parallel conversions** — 1 up to your CPU core count
-
-Settings persist across launches via Qt's native storage (registry on Windows, plist on macOS, INI on Linux).
+You can cancel at any time. Partial output files get cleaned up automatically. Your source files are never touched — if an output name would collide, Splash auto-numbers (`clip (2).mp4`).
 
 ### Keyboard shortcuts
 
-| Shortcut       | Action                 |
-| -------------- | ---------------------- |
-| `Ctrl+O`       | Add files              |
-| `Ctrl+Shift+O` | Add folder             |
-| `Ctrl+T`       | Toggle dark / light    |
-| `Ctrl+,`       | Open Settings          |
-| `Ctrl+Q`       | Quit                   |
+| Shortcut | Action |
+|---|---|
+| `Ctrl+O` | Add files |
+| `Ctrl+Shift+O` | Add folder |
+| `Ctrl+T` | Toggle dark / light theme |
+| `Ctrl+,` | Open Settings |
+| `Ctrl+Q` | Quit |
+
+---
+
+## What's in and out
+
+**Anything FFmpeg can decode** goes in: MKV, MP4, MOV, WebM, AVI, FLV, WMV, M4V, MPG, TS / MTS / M2TS, OGV, 3GP, MP3, M4A, WAV, FLAC, AAC, OGG, OPUS, WMA.
+
+**Outputs** are opinionated — Splash picks the codec combination that works:
+
+| Container | Video | Audio | Why |
+|---|---|---|---|
+| **MP4** | H.264 | AAC | The web default. `+faststart` for instant streaming. |
+| **MOV** | H.264 | AAC | The Apple default. Same flags as MP4. |
+| **MKV** | H.264 | AAC | The "this'll play anywhere" container. |
+| **WebM** | VP9 | Opus | Best for the open web. |
+| **AVI** | MPEG-4 | MP3 | For when grandma's DVD player needs a file. |
+| **GIF** | — | — | 15 fps, 640 px wide, paletted. Looks pretty good. |
+| **MP3** | — | MP3 | Audio extract for podcasts and the like. |
+| **M4A** | — | AAC | Audio extract, Apple-friendly. |
+| **WAV** | — | PCM | Uncompressed. For editing. |
+
+### Quality presets
+
+| Preset | CRF | Audio bitrate | When to use |
+|---|---|---|---|
+| Original | 17 | 320 k | Archival, masters, "I'll never re-encode this" |
+| High | 20 | 256 k | Editing, client delivery |
+| **Medium** *(default)* | 23 | 192 k | Everyday sharing — the right pick 80% of the time |
+| Small | 28 | 128 k | Messaging, tight disks, low-bandwidth |
 
 ---
 
@@ -302,23 +150,31 @@ Settings persist across launches via Qt's native storage (registry on Windows, p
 ```bash
 pip install -r requirements.txt pyinstaller
 pyinstaller --clean --noconfirm build/splash.spec
-# → dist/Splash (Linux)
-# → dist/Splash.exe (Windows)
+# → dist/Splash       (Linux)
+# → dist/Splash.exe   (Windows)
+# → dist/Splash.app   (macOS bundle)
 ```
 
-The `.github/workflows/build.yml` workflow builds Windows + Linux artifacts automatically on every `v*` git tag and publishes them to a GitHub Release.
+The CI in `.github/workflows/build.yml` does this for every `v*` tag and ships the artifacts to a GitHub Release. If you want to cut your own release, tag and push:
+
+```bash
+git tag v1.2.0
+git push origin v1.2.0
+```
 
 ---
 
 ## Troubleshooting
 
-**The app won't open on Linux** — install the Qt runtime libraries listed in the Linux section above.
+**App won't open on Linux** → install the Qt runtime libs listed in the Linux section above.
 
-**"FFmpeg not found" and the download fails** — install FFmpeg manually (`brew install ffmpeg` on macOS, `sudo apt install ffmpeg` on Debian, `winget install ffmpeg` on Windows) and press *Check again*.
+**"FFmpeg not found" and the auto-download fails** → install FFmpeg manually (`brew install ffmpeg`, `sudo apt install ffmpeg`, `winget install ffmpeg`, `sudo pacman -S ffmpeg`) and click *Check again*.
 
-**A conversion fails** — hover the red **Failed** pill in the queue to see the FFmpeg error message. Most failures are due to corrupt input files or unsupported codecs.
+**A conversion fails** → hover the red **Failed** pill in the queue to see the exact FFmpeg error. 9 times out of 10 it's a corrupt input or a codec the source uses that FFmpeg doesn't have a license for.
 
-**High CPU use** — open *Settings* and reduce *Parallel conversions* to 1 or 2.
+**Fans spin up like a 747** → open *Settings*, dial down *Parallel conversions* to 1 or 2.
+
+**Settings not persisting** → Splash uses Qt's native settings store. On Linux that's `~/.config/Splash/Splash.conf`. Delete to reset.
 
 ---
 
@@ -326,34 +182,37 @@ The `.github/workflows/build.yml` workflow builds Windows + Linux artifacts auto
 
 ```
 converter/
-  app.py                # application bootstrap
+  app.py                  application bootstrap
   core/
-    ffmpeg.py           # FFmpeg discovery + static-build downloader
-    presets.py          # format & quality matrix + ffmpeg arg builder
-    probe.py            # ffprobe wrapper + filesize helpers
-    job.py              # Job dataclass + progress-parsing worker
-    queue.py            # parallel worker pool
+    ffmpeg.py             FFmpeg discovery + static-build downloader
+    presets.py            format & quality matrix + ffmpeg arg builder
+    probe.py              ffprobe wrapper + filesize helpers
+    job.py                Job dataclass + progress-parsing worker
+    queue.py              parallel worker pool
   ui/
-    theme.py            # iOS-inspired dark + light QSS
-    drop_zone.py        # animated drag-and-drop surface
-    queue_view.py       # table + gradient progress + status pills
-    ffmpeg_dialog.py    # first-run FFmpeg setup
-    settings_dialog.py  # preferences
-    main_window.py      # hero bar + cards + queue composition
-build/splash.spec        # PyInstaller spec
-.github/workflows/build.yml
-run.py                   # entry shim
+    theme.py              iOS-inspired dark + light QSS
+    drop_zone.py          animated drag-and-drop surface
+    queue_view.py         table + gradient progress + status pills
+    ffmpeg_dialog.py      first-run FFmpeg setup
+    settings_dialog.py    preferences
+    main_window.py        hero bar + cards + queue composition
+
+build/splash.spec         PyInstaller spec (Linux / Windows / macOS .app)
+.github/workflows/build.yml  cross-OS build matrix + release publisher
+landing/                  Vite + React landing page (deployed to Netlify)
+run.py                    entry shim
 ```
 
 ---
 
 ## Contributing
 
-PRs welcome. Please open an issue first for large changes so we can agree on scope.
+PRs welcome. A few ground rules so we stay aligned:
 
-1. Fork → branch → commit → push → PR.
-2. Keep the UI clean and the dependency list tiny (ideally just PySide6).
-3. If you add a new output format, update `FORMATS` in `converter/core/presets.py` and the README table above.
+1. **Open an issue first** for anything bigger than a one-file change. Saves us both time.
+2. **Keep the UI clean.** Splash is a deliberately small surface. If a new feature needs a settings page, it probably doesn't belong.
+3. **Keep the dependency list tiny.** Right now it's PySide6 plus FFmpeg on disk. Adding to that bar is high.
+4. **New output format?** Update `FORMATS` in `converter/core/presets.py` and the README table above.
 
 ---
 
@@ -361,12 +220,17 @@ PRs welcome. Please open an issue first for large changes so we can agree on sco
 
 GPL-3.0-or-later. See [LICENSE](LICENSE).
 
-## Acknowledgments
+You're allowed (and encouraged) to clone, study, modify, and redistribute Splash. If you ship a fork, ship it under GPL too. If Splash saves you time and you want to support the work without compiling it yourself, the polished build with auto-updates is [$19, one-time, at splash-video-converter.netlify.app](https://splash-video-converter.netlify.app).
 
-- **FFmpeg** — the workhorse behind every conversion.
-- **PySide6 / Qt** — the UI toolkit.
-- Built on the original *MKV to MOV Converter* by Mohamed Aly Sayed.
+---
+
+## Built on
+
+- **[FFmpeg](https://ffmpeg.org)** — the actual conversion engine. Splash is a face for it.
+- **[PySide6 / Qt](https://www.qt.io/qt-for-python)** — the UI toolkit that makes one codebase render natively on three OSes.
+
+---
 
 ## Contact
 
-[muhammmedaly@gmail.com](mailto:muhammmedaly@gmail.com)
+[muhammmedaly@gmail.com](mailto:muhammmedaly@gmail.com) · happy to hear what's broken, what's missing, and what you converted with it.
