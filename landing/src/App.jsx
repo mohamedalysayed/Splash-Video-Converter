@@ -740,6 +740,10 @@ function Pricing() {
           </p>
         </Reveal>
 
+        <Reveal>
+          <ValueStrip />
+        </Reveal>
+
         <Reveal className="pricing">
           <div className="price-card">
             <span className="price-badge">
@@ -781,6 +785,58 @@ function Pricing() {
         </Reveal>
       </div>
     </section>
+  );
+}
+
+/* ─── Value strip — what $19 actually buys vs the alternatives ─ */
+
+function ValueStrip() {
+  const items = [
+    { name: "Cast",                  price: "$19",  cadence: "once",   year1: 19,  highlight: true },
+    { name: "Adobe Media Encoder",   price: "$23",  cadence: "/ month", year1: 276 },
+    { name: "Wondershare UniConverter", price: "$80", cadence: "/ year",  year1: 80 },
+    { name: "Movavi Video Converter",   price: "$40", cadence: "once",   year1: 40 },
+  ];
+  const castY1 = items[0].year1;
+  return (
+    <div className="value-strip">
+      <div className="value-strip__heading">
+        <span className="value-strip__label">Year-one cost · same job</span>
+        <span className="value-strip__lead">You'd spend up to <strong>$276</strong> elsewhere. With Cast, you spend <strong>$19</strong>. Once.</span>
+      </div>
+      <div className="value-strip__bars">
+        {items.map((it) => {
+          const widthPct = Math.min(100, (it.year1 / 276) * 100);
+          return (
+            <div
+              key={it.name}
+              className={`value-bar ${it.highlight ? "value-bar--win" : ""}`}
+            >
+              <div className="value-bar__name">{it.name}</div>
+              <div className="value-bar__track">
+                <motion.div
+                  className="value-bar__fill"
+                  initial={{ width: 0 }}
+                  whileInView={{ width: `${widthPct}%` }}
+                  viewport={{ once: true, amount: 0.4 }}
+                  transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+                />
+                <span className="value-bar__price">
+                  ${it.year1}
+                  <span className="value-bar__cadence"> / yr 1</span>
+                </span>
+              </div>
+              <div className="value-bar__sticker">{it.price}<span>{it.cadence}</span></div>
+            </div>
+          );
+        })}
+      </div>
+      <div className="value-strip__savings">
+        <span className="value-strip__chip">
+          <strong>You save up to ${276 - castY1}</strong> in year one alone. And every year after, while everyone else pays again.
+        </span>
+      </div>
+    </div>
   );
 }
 
