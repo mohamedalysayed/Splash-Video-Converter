@@ -1280,6 +1280,16 @@ button { font-family: inherit; cursor: pointer; }
   font-weight: 700;
   margin-right: 4px;
 }
+.value-strip__legal {
+  margin: 18px 0 0;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--ink-faint);
+  text-align: center;
+  max-width: 620px;
+  margin-left: auto;
+  margin-right: auto;
+}
 
 @media (max-width: 720px) {
   .value-strip { padding: 24px 22px 20px; }

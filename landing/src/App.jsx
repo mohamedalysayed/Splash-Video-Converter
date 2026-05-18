@@ -836,6 +836,13 @@ function ValueStrip() {
           <strong>You save up to ${276 - castY1}</strong> in year one alone. And every year after, while everyone else pays again.
         </span>
       </div>
+      <p className="value-strip__legal">
+        Competitor prices as of May 2026, taken from publicly listed sticker pricing on each vendor's website.
+        Adobe Media Encoder is a trademark of Adobe Inc.;
+        Wondershare UniConverter is a trademark of Wondershare Technology Group Co., Ltd.;
+        Movavi Video Converter is a trademark of Movavi Software Ltd.
+        Cast is not affiliated with, endorsed by, or sponsored by any of the above.
+      </p>
     </div>
   );
 }
@@ -874,8 +881,9 @@ function Compare() {
               </div>
             ))}
           </div>
-          <p style={{ textAlign: "center", marginTop: 16, fontSize: 13, color: "var(--ink-faint)" }}>
-            Subscription prices accurate as of 2026. Adobe Media Encoder is a trademark of Adobe Inc.
+          <p style={{ textAlign: "center", marginTop: 16, fontSize: 13, color: "var(--ink-faint)", maxWidth: 620, marginLeft: "auto", marginRight: "auto", lineHeight: 1.5 }}>
+            Pricing and features compared above are accurate as of May 2026, from each vendor's public website.
+            Adobe Media Encoder is a trademark of Adobe Inc.; Cast is not affiliated with, endorsed by, or sponsored by Adobe.
           </p>
         </Reveal>
       </div>
