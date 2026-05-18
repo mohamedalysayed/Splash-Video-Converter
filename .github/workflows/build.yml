@@ -104,12 +104,18 @@ jobs:
     permissions:
       contents: write
     steps:
+      - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
           path: artifacts
+      - name: Stage docs alongside binaries
+        run: |
+          mkdir -p artifacts/docs
+          cp USER_GUIDE.md artifacts/docs/USER_GUIDE.md
       - name: Create release
         uses: softprops/action-gh-release@v2
         with:
-          files: artifacts/**/*
+          files: |
+            artifacts/**/*
           generate_release_notes: true
           fail_on_unmatched_files: false

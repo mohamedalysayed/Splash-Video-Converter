@@ -182,10 +182,33 @@ export default function ThankYou() {
           </motion.div>
 
           <motion.div
+            className="ty__guide"
+            initial={reduce ? false : { opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.7 }}
+          >
+            <div>
+              <h3>Read the User Guide</h3>
+              <p>10-minute read · everything you need to know about Splash</p>
+            </div>
+            <a
+              href="https://github.com/mohamedalysayed/Splash-Video-Converter/blob/main/USER_GUIDE.md"
+              target="_blank" rel="noreferrer"
+              className="ty__guide-cta"
+            >
+              Open guide
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: 6 }}>
+                <path d="M7 17 17 7" />
+                <path d="M7 7h10v10" />
+              </svg>
+            </a>
+          </motion.div>
+
+          <motion.div
             className="ty__support"
             initial={reduce ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
+            transition={{ duration: 0.6, delay: 0.85 }}
           >
             <h3>Something not working?</h3>
             <p>
@@ -340,8 +363,39 @@ export default function ThankYou() {
           padding: 2px 6px;
           border-radius: 4px;
         }
+        .ty__guide {
+          margin: 0 auto;
+          max-width: 720px;
+          padding: 22px 26px;
+          border-radius: 16px;
+          border: 1px solid var(--line);
+          background: var(--bg-elevated);
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 24px;
+          box-shadow: var(--shadow-sm);
+        }
+        .ty__guide h3 { margin: 0 0 4px; font-size: 17px; font-weight: 700; letter-spacing: -0.02em; }
+        .ty__guide p  { margin: 0; font-size: 13px; color: var(--ink-muted); }
+        .ty__guide-cta {
+          display: inline-flex;
+          align-items: center;
+          padding: 10px 18px;
+          border-radius: 999px;
+          background: var(--ink);
+          color: #fafafa;
+          font-size: 14px;
+          font-weight: 600;
+          white-space: nowrap;
+          transition: transform 200ms var(--ease-out);
+        }
+        .ty__guide-cta:hover { transform: translateY(-1px); }
+        @media (max-width: 560px) {
+          .ty__guide { flex-direction: column; text-align: center; }
+        }
         .ty__support {
-          margin: 40px auto 0;
+          margin: 24px auto 0;
           max-width: 720px;
           padding: 24px;
           border-radius: 16px;

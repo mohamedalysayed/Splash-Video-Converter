@@ -704,9 +704,8 @@ button { font-family: inherit; cursor: pointer; }
 }
 
 .viz-shield {
-  width: 76px;
-  height: 84px;
-  margin: 0 auto;
+  width: 54px;
+  height: 60px;
   background: linear-gradient(180deg, var(--bg-muted), #fff);
   border: 1px solid var(--line);
   border-radius: 12px 12px 60% 60% / 12px 12px 40% 40%;
@@ -714,7 +713,14 @@ button { font-family: inherit; cursor: pointer; }
   place-items: center;
   color: var(--ink);
   box-shadow: var(--shadow-sm);
+  position: absolute;
+  right: 24px;
+  bottom: 22px;
 }
+
+/* keep body text from sliding under absolute-positioned visuals */
+.bento__card--has-corner-visual .bento__body { padding-right: 80px; }
+.bento__card--has-corner-visual .bento__visual { display: none; }
 
 /* ──────────────────────────────────────────────────────────
    Steps

@@ -392,26 +392,22 @@ function Features() {
             </div>
           </BentoCard>
 
-          <BentoCard className="bento__card--half">
+          <BentoCard className="bento__card--half bento__card--has-corner-visual">
             <h3 className="bento__title">Never overwrites your source</h3>
             <p className="bento__body">
               Output names auto-number on collision. Cancel a job, partial files are cleaned up.
               Your originals are sacred.
             </p>
-            <div className="bento__visual">
-              <ShieldVisual />
-            </div>
+            <ShieldVisual />
           </BentoCard>
 
-          <BentoCard className="bento__card--half">
+          <BentoCard className="bento__card--half bento__card--has-corner-visual">
             <h3 className="bento__title">Zero setup on Windows &amp; Linux</h3>
             <p className="bento__body">
-              No FFmpeg? Splash offers a one-click download into its own private folder. No admin rights.
+              No FFmpeg? The app offers a one-click download into its own private folder. No admin rights.
               No PATH editing. No tears.
             </p>
-            <div className="bento__visual" style={{ alignItems: "center" }}>
-              <DownloadVisual />
-            </div>
+            <DownloadVisual />
           </BentoCard>
         </motion.div>
       </div>
@@ -513,22 +509,26 @@ function DownloadVisual() {
   const reduce = useReducedMotion();
   return (
     <motion.div
-      animate={reduce ? {} : { y: [0, 6, 0] }}
+      animate={reduce ? {} : { y: [0, 4, 0] }}
       transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
       style={{
-        display: "inline-flex", alignItems: "center", gap: 10,
-        padding: "10px 16px", borderRadius: 12,
+        position: "absolute",
+        right: 24,
+        bottom: 22,
+        display: "inline-flex", alignItems: "center", gap: 8,
+        padding: "8px 12px", borderRadius: 10,
         background: "var(--ink)", color: "#fafafa",
-        boxShadow: "0 10px 24px rgba(0,0,0,0.18)",
-        fontSize: 13, fontWeight: 600,
+        boxShadow: "0 8px 20px rgba(0,0,0,0.18)",
+        fontSize: 12, fontWeight: 600,
+        whiteSpace: "nowrap",
       }}
     >
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
         <polyline points="7 10 12 15 17 10" />
         <line x1="12" y1="15" x2="12" y2="3" />
       </svg>
-      Download FFmpeg
+      FFmpeg
     </motion.div>
   );
 }
